@@ -1,12 +1,29 @@
 import { http, createConfig } from "wagmi";
 import { injected } from "wagmi/connectors";
+import { createConfig as createPrivyConfig } from "@privy-io/wagmi";
 import { robinhood } from "./chain";
 
+/** True kalau Privy dikonfigurasi (env var di-set saat build). */
+export const privyAppId = process.env.NEXT_PUBLIC_PRIVY_APP_ID || "";
+export const privyEnabled = privyAppId.length > 0;
+
 /**
- * wagmi config — pakai injected connector (MetaMask / browser wallet).
- * Tidak butuh WalletConnect projectId, jadi self-contained.
+ * Config untuk mode Privy — Privy mengelola connector-nya sendiri,
+ * jadi tidak perlu daftar `connectors` di sini.
  */
-export const wagmiConfig = createConfig({
+export const privyWagmiConfig = createPrivyConfig({
+  chains: [robinhood],
+  transports: {
+    [robinhood.id]: http(robinhood.rpcUrls.default.http[0]),
+  },
+});
+
+/**
+ * Fallback ketika Privy belum dikonfigurasi: injected connector biasa
+ * (MetaMask / browser wallet). Memastikan situs tetap jalan & deploy
+ * sebelum NEXT_PUBLIC_PRIVY_APP_ID diisi.
+ */
+export const fallbackWagmiConfig = createConfig({
   chains: [robinhood],
   connectors: [injected({ shimDisconnect: true })],
   transports: {
@@ -17,6 +34,6 @@ export const wagmiConfig = createConfig({
 
 declare module "wagmi" {
   interface Register {
-    config: typeof wagmiConfig;
+    config: typeof privyWagmiConfig;
   }
 }

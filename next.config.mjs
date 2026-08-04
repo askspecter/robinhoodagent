@@ -11,6 +11,17 @@ const nextConfig = {
       "@base-org/account": false,
       "@coinbase/cdp-sdk": false,
       "@react-native-async-storage/async-storage": false,
+      // Privy pulls these optional deps (fiat onramp, smart/abstract wallets,
+      // solana, farcaster) that we don't use. Stub them so bundling passes.
+      "@stripe/stripe-js": false,
+      "@stripe/crypto": false,
+      "@farcaster/mini-app-solana": false,
+      "@abstract-foundation/agw-client": false,
+      "@abstract-foundation/agw-client/actions": false,
+      "@solana-program/memo": false,
+      permissionless: false,
+      "permissionless/accounts": false,
+      "permissionless/clients/pimlico": false,
     };
     config.externals = config.externals || [];
     config.externals.push("pino-pretty", "lokijs", "encoding");

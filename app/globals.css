@@ -12,11 +12,11 @@ html {
 }
 
 body {
-  background-color: #05070a;
+  background-color: #0a0a0b;
   color: #e7edf5;
   background-image:
-    radial-gradient(1200px 600px at 50% -200px, rgba(0, 200, 5, 0.12), transparent 60%),
-    linear-gradient(180deg, #05070a 0%, #05070a 100%);
+    radial-gradient(1100px 560px at 30% -220px, rgba(195, 245, 60, 0.1), transparent 60%),
+    linear-gradient(180deg, #0a0a0b 0%, #0a0a0b 100%);
   min-height: 100vh;
 }
 
@@ -36,16 +36,16 @@ body {
 }
 
 .chip {
-  border: 1px solid #1c2430;
-  background: rgba(0, 200, 5, 0.06);
+  border: 1px solid #25282e;
+  background: rgba(195, 245, 60, 0.06);
   border-radius: 999px;
 }
 
 .btn-primary {
-  background: #00c805;
-  color: #04120a;
+  background: #c3f53c;
+  color: #10160a;
   font-weight: 700;
-  border-radius: 12px;
+  border-radius: 10px;
   transition: filter 0.15s ease, transform 0.05s ease;
 }
 .btn-primary:hover {
@@ -60,17 +60,17 @@ body {
 }
 
 .btn-ghost {
-  border: 1px solid #1c2430;
-  border-radius: 12px;
+  border: 1px solid #25282e;
+  border-radius: 10px;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 .btn-ghost:hover {
-  border-color: #00c805;
-  background: rgba(0, 200, 5, 0.06);
+  border-color: #c3f53c;
+  background: rgba(195, 245, 60, 0.06);
 }
 
 .text-up {
-  color: #00c805;
+  color: #c3f53c;
 }
 .text-down {
   color: #ff4d4d;

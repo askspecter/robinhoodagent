@@ -2,26 +2,26 @@ import { site, explorerToken } from "@/lib/config";
 import { BuyOnPons } from "./BuyOnPons";
 
 const ALLOC = [
-  { label: "Liquidity (Pons)", pct: 60, color: "#00c805" },
+  { label: "Liquidity (Pons)", pct: 60, color: "#c3f53c" },
   { label: "Broker rewards", pct: 20, color: "#f5c518" },
   { label: "Community / airdrop", pct: 12, color: "#3ea6ff" },
-  { label: "Treasury", pct: 8, color: "#8a97a8" },
+  { label: "Treasury", pct: 8, color: "#8b909a" },
 ];
 
 export function Tokenomics() {
   const isPlaceholder = site.token.address.startsWith("0x0000000");
   return (
-    <section id="tokenomics" className="mx-auto max-w-6xl px-4 py-20">
+    <section id="tokenomics" className="mx-auto max-w-6xl px-5 py-20">
       <div className="grid gap-10 lg:grid-cols-2 items-center">
         <div>
           <div className="text-stonk-green text-sm font-mono mb-2">// tokenomics</div>
           <h2 className="text-3xl sm:text-4xl font-black">
-            {site.ticker}, diluncurkan di Pons.
+            {site.ticker}, launched on Pons.
           </h2>
           <p className="mt-4 text-stonk-muted">
-            Token utama ekosistem diluncurkan lewat Pons Launchpad di Robinhood Chain —
-            supply tetap, langsung masuk pool Uniswap V3, likuiditas terkunci. Website ini
-            adalah gerbang resmi ke sana.
+            The ecosystem&apos;s core token is launched through the Pons Launchpad on
+            Robinhood Chain — fixed supply, straight into a Uniswap V3 pool, liquidity
+            locked. This site is the official gateway to it.
           </p>
 
           <div className="mt-6 panel p-4 font-mono text-sm">
@@ -29,7 +29,7 @@ export function Tokenomics() {
               Contract
             </div>
             {isPlaceholder ? (
-              <span className="text-stonk-muted">Belum diluncurkan — segera hadir di Pons</span>
+              <span className="text-stonk-muted">Not launched yet — coming soon on Pons</span>
             ) : (
               <a
                 href={explorerToken(site.token.address)}
@@ -65,7 +65,7 @@ export function Tokenomics() {
             ))}
           </div>
           <p className="mt-6 text-xs text-stonk-muted">
-            * Alokasi ilustratif — sesuaikan dengan parameter launch kamu di Pons.
+            * Illustrative allocation — adjust to match your launch parameters on Pons.
           </p>
         </div>
       </div>

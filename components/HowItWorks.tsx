@@ -4,31 +4,31 @@ const STEPS = [
   {
     n: "01",
     t: "Mint your broker",
-    d: "Klaim salah satu broker NFT gratis di Robinhood Chain. Tiap broker adalah pass masuk ke ekosistem.",
+    d: "Claim one of the free broker NFTs on Robinhood Chain. Every broker is your pass into the ecosystem.",
   },
   {
     n: "02",
     t: "Activate",
-    d: "Aktifkan broker-mu pakai token untuk mengunci tier partisipasi. Makin tinggi tier, makin besar bagian reward.",
+    d: "Activate your broker with the token to lock in a participation tier. Higher tier, bigger share of rewards.",
   },
   {
     n: "03",
     t: "Clock in & overtime",
-    d: "Broker yang aktif ‘clock in’. Sebagian fee protokol di-swap jadi token saham dan dibagikan ke wallet-mu.",
+    d: "Active brokers clock in. A share of protocol fees is swapped into stock tokens and paid out to your wallet.",
   },
   {
     n: "04",
     t: "Powered by Pons",
-    d: `Semua ditenagai ${site.ticker} — token yang diluncurkan di Pons Launchpad di Robinhood Chain, dengan likuiditas terkunci.`,
+    d: `It all runs on ${site.ticker} — the token launched on the Pons Launchpad on Robinhood Chain, with locked liquidity.`,
   },
 ];
 
 export function HowItWorks() {
   return (
-    <section id="how" className="mx-auto max-w-6xl px-4 py-20">
+    <section id="how" className="mx-auto max-w-6xl px-5 py-20">
       <div className="mb-10">
         <div className="text-stonk-green text-sm font-mono mb-2">// how it works</div>
-        <h2 className="text-3xl sm:text-4xl font-black">Kerjanya kayak Wall Street, tapi on-chain.</h2>
+        <h2 className="text-3xl sm:text-4xl font-black">Works like Wall Street — but on-chain.</h2>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {STEPS.map((s) => (

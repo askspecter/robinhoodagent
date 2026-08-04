@@ -1,29 +1,29 @@
 const QA = [
   {
-    q: "Apa itu proyek ini?",
-    a: "Koleksi broker NFT bertema Wall Street di Robinhood Chain. Kamu mint broker, aktifkan, dan dapat reward — semua ditenagai token yang diluncurkan di Pons.",
+    q: "What is this project?",
+    a: "A Wall Street–themed broker NFT collection on Robinhood Chain. You mint a broker, activate it, and earn rewards — all powered by a token launched on Pons.",
   },
   {
-    q: "Di mana token-nya diluncurkan?",
-    a: "Token utama diluncurkan lewat Pons Launchpad di Robinhood Chain. Setelah live, tombol ‘Buy on Pons’ akan aktif dan mengarah langsung ke halaman token.",
+    q: "Where is the token launched?",
+    a: "The core token is launched via the Pons Launchpad on Robinhood Chain. Once it's live, the “Buy on Pons” button activates and links straight to the token page.",
   },
   {
-    q: "Berapa harga mint NFT-nya?",
-    a: "Mint gratis (kamu hanya bayar gas). Batas per wallet diatur di kontrak. Cek halaman Mint untuk status terbaru.",
+    q: "How much is the NFT mint?",
+    a: "Minting is free (you only pay gas). Per-wallet limits are enforced by the contract. Check the Mint page for the latest status.",
   },
   {
-    q: "Wallet apa yang didukung?",
-    a: "Wallet EVM apa pun yang injected ke browser (mis. MetaMask). Website bisa menambahkan Robinhood Chain otomatis lewat tombol connect.",
+    q: "Which wallets are supported?",
+    a: "Sign in with email or a social account via Privy, or connect any EVM wallet. The site can add Robinhood Chain automatically.",
   },
   {
-    q: "Apakah ini berafiliasi dengan Robinhood?",
-    a: "Tidak. Proyek ini berjalan di Robinhood Chain (jaringan permissionless) tetapi tidak berafiliasi dengan atau didukung oleh Robinhood Markets, Inc.",
+    q: "Is this affiliated with Robinhood?",
+    a: "No. The project runs on Robinhood Chain (a permissionless network) but is not affiliated with or endorsed by Robinhood Markets, Inc.",
   },
 ];
 
 export function Faq() {
   return (
-    <section id="faq" className="mx-auto max-w-3xl px-4 py-20">
+    <section id="faq" className="mx-auto max-w-3xl px-5 py-20">
       <div className="mb-10 text-center">
         <div className="text-stonk-green text-sm font-mono mb-2">// faq</div>
         <h2 className="text-3xl sm:text-4xl font-black">Questions from the floor</h2>

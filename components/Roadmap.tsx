@@ -1,13 +1,13 @@
 const PHASES = [
   { q: "Phase 1", t: "The Mint", items: ["Free broker NFT mint", "Community & socials", "Website live"], done: true },
-  { q: "Phase 2", t: "Token on Pons", items: ["Launch $TOKEN di Pons", "Uniswap V3 LP + lock", "Buy on Pons live"], done: false },
+  { q: "Phase 2", t: "Token on Pons", items: ["Launch token on Pons", "Uniswap V3 LP + lock", "Buy on Pons live"], done: false },
   { q: "Phase 3", t: "Activation", items: ["Broker activation & tiers", "Stock-drop rewards", "Holder dashboard"], done: false },
   { q: "Phase 4", t: "Exchange", items: ["Anvil-style marketplace", "Governance", "Ecosystem grants"], done: false },
 ];
 
 export function Roadmap() {
   return (
-    <section id="roadmap" className="mx-auto max-w-6xl px-4 py-20">
+    <section id="roadmap" className="mx-auto max-w-6xl px-5 py-20">
       <div className="mb-10">
         <div className="text-stonk-green text-sm font-mono mb-2">// roadmap</div>
         <h2 className="text-3xl sm:text-4xl font-black">The trading floor plan</h2>

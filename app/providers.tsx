@@ -1,16 +1,53 @@
 "use client";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { PrivyProvider } from "@privy-io/react-auth";
+import { WagmiProvider as PrivyWagmiProvider } from "@privy-io/wagmi";
 import { WagmiProvider } from "wagmi";
-import { wagmiConfig } from "@/lib/wagmi";
+import {
+  privyAppId,
+  privyEnabled,
+  privyWagmiConfig,
+  fallbackWagmiConfig,
+} from "@/lib/wagmi";
+import { robinhood } from "@/lib/chain";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
 
+  // Belum ada Privy App ID → jalankan mode fallback (injected wallet).
+  // Situs tetap build, deploy, dan bisa connect wallet browser.
+  if (!privyEnabled) {
+    return (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      <WagmiProvider config={fallbackWagmiConfig as any}>
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      </WagmiProvider>
+    );
+  }
+
   return (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </WagmiProvider>
+    <PrivyProvider
+      appId={privyAppId}
+      config={{
+        appearance: {
+          theme: "dark",
+          accentColor: "#c3f53c",
+          logo: undefined,
+        },
+        loginMethods: ["wallet", "email", "google", "twitter"],
+        embeddedWallets: {
+          ethereum: { createOnLogin: "users-without-wallets" },
+        },
+        defaultChain: robinhood,
+        supportedChains: [robinhood],
+      }}
+    >
+      <QueryClientProvider client={queryClient}>
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        <PrivyWagmiProvider config={privyWagmiConfig as any}>{children}</PrivyWagmiProvider>
+      </QueryClientProvider>
+    </PrivyProvider>
   );
 }

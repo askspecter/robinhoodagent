@@ -6,10 +6,10 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden">
       <div className="grid-bg absolute inset-0 -z-10" />
-      <div className="mx-auto max-w-6xl px-4 pt-20 pb-16 text-center">
-        <div className="chip inline-flex items-center gap-2 px-3 py-1 text-xs text-stonk-muted mb-6">
+      <div className="mx-auto max-w-5xl px-5 pt-20 pb-16 text-center">
+        <div className="chip inline-flex items-center gap-2 px-3 py-1 text-xs text-stonk-muted mb-6 font-mono uppercase tracking-wider">
           <span className="h-2 w-2 rounded-full bg-stonk-green animate-pulseGlow" />
-          Free NFT Mint — LIVE on Robinhood Chain
+          Free NFT Mint — Live on Robinhood Chain
         </div>
 
         <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.05]">
@@ -27,8 +27,8 @@ export function Hero() {
             Mint your Broker →
           </Link>
           <BuyOnPons />
-          <Link href="/dashboard" className="btn-ghost px-6 py-3 text-sm">
-            View Dashboard
+          <Link href="/marketplace" className="btn-ghost px-6 py-3 text-sm font-mono uppercase tracking-wider">
+            Explore Market
           </Link>
         </div>
 
@@ -40,7 +40,7 @@ export function Hero() {
             { k: "Token", v: `${site.ticker} · Pons` },
           ].map((s) => (
             <div key={s.k} className="panel px-4 py-4">
-              <div className="text-xs text-stonk-muted uppercase tracking-widest">{s.k}</div>
+              <div className="text-xs text-stonk-muted uppercase tracking-widest font-mono">{s.k}</div>
               <div className="text-lg font-bold mt-1">{s.v}</div>
             </div>
           ))}

@@ -10,33 +10,34 @@
 export const site = {
   // --- Brand -------------------------------------------------------------
   name: "STONK BROKERS",
-  ticker: "$STONK", // TODO: ganti dengan ticker token kamu
-  tagline: "Punya broker. Clock in. Dapat saham.",
+  company: "Your Labs LLC", // TODO: your company / studio name (footer)
+  ticker: "$STONK", // TODO: your token ticker
+  tagline: "Own a broker. Clock in. Get stonks.",
   description:
-    "Koleksi broker on-chain di Robinhood Chain. Mint broker-mu, aktifkan, dan biarkan dia kerja lembur — semua ditenagai token yang diluncurkan di Pons.",
+    "An on-chain broker collection on Robinhood Chain. Mint your broker, activate it, and let it work overtime — all powered by a token launched on Pons.",
 
   // --- Token (Pons) ------------------------------------------------------
-  // Isi setelah launch di Pons Launchpad.
+  // Fill in after you launch on the Pons Launchpad.
   token: {
-    // TODO: alamat kontrak token kamu di Robinhood Chain (0x...)
+    // TODO: your token contract address on Robinhood Chain (0x...)
     address: "0x0000000000000000000000000000000000000000",
-    // TODO: link halaman token kamu di Pons (tombol "Buy on Pons" mengarah ke sini)
+    // TODO: your token page on Pons ("Buy on Pons" button points here)
     ponsUrl: "https://pons.family",
-    // Link explorer akan otomatis dibentuk dari address di atas.
-    launched: false, // set true setelah token live → tombol jadi aktif
+    // Explorer link is derived from the address above.
+    launched: false, // set true once the token is live → button activates
   },
 
   // --- NFT Mint ----------------------------------------------------------
   nft: {
     collectionName: "StonkBrokers",
     totalSupply: 4444,
-    mintPriceLabel: "FREE", // atau "0.0042 ETH" dsb
-    // TODO: alamat kontrak NFT (biarkan 0x0 kalau belum deploy → mint jadi demo)
+    mintPriceLabel: "FREE", // e.g. "0.0042 ETH"
+    // TODO: NFT contract address (leave 0x0 until deployed → demo mode)
     contractAddress: "0x0000000000000000000000000000000000000000",
     maxPerWallet: 3,
   },
 
-  // --- Social links (ganti sesuai punyamu) -------------------------------
+  // --- Social links (replace with your own) ------------------------------
   socials: {
     twitter: "https://x.com/",
     telegram: "https://t.me/",

@@ -16,7 +16,7 @@ export function BuyOnPons({ className = "" }: { className?: string }) {
       className={`btn-primary inline-flex items-center justify-center gap-2 px-6 py-3 text-sm ${
         !live ? "opacity-60 cursor-not-allowed" : ""
       } ${className}`}
-      title={live ? "Buy on Pons" : "Segera hadir — token belum diluncurkan di Pons"}
+      title={live ? "Buy on Pons" : "Coming soon — token not launched on Pons yet"}
     >
       {live ? `Buy ${site.ticker} on Pons` : `${site.ticker} — Coming soon on Pons`}
       <span aria-hidden>↗</span>

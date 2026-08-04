@@ -1,4 +1,3 @@
-import { Nav } from "@/components/Nav";
 import { Ticker } from "@/components/Ticker";
 import { Hero } from "@/components/Hero";
 import { HowItWorks } from "@/components/HowItWorks";
@@ -9,8 +8,7 @@ import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main>
-      <Nav />
+    <>
       <Ticker />
       <Hero />
       <HowItWorks />
@@ -18,6 +16,6 @@ export default function Home() {
       <Roadmap />
       <Faq />
       <Footer />
-    </main>
+    </>
   );
 }

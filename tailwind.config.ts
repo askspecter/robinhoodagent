@@ -8,17 +8,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Robinhood-green flavored palette
+        // Lime-on-black terminal palette
         stonk: {
-          green: "#00c805",
-          greenDim: "#00a004",
+          green: "#c3f53c",
+          greenDim: "#a7d92f",
           gold: "#f5c518",
-          ink: "#05070a",
-          panel: "#0c1016",
-          panel2: "#11161f",
-          line: "#1c2430",
-          red: "#ff4d4d",
-          muted: "#8a97a8",
+          ink: "#0a0a0b",
+          panel: "#111214",
+          panel2: "#16181b",
+          line: "#25282e",
+          red: "#ff5c5c",
+          muted: "#8b909a",
         },
       },
       fontFamily: {
@@ -26,7 +26,7 @@ const config: Config = {
         display: ["var(--font-display)", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(0,200,5,0.25), 0 0 40px -8px rgba(0,200,5,0.45)",
+        glow: "0 0 0 1px rgba(195,245,60,0.22), 0 0 40px -8px rgba(195,245,60,0.4)",
       },
       keyframes: {
         marquee: {
