@@ -2,42 +2,30 @@
  * ============================================================================
  *  SITE CONFIG  —  EDIT EVERYTHING HERE
  * ----------------------------------------------------------------------------
- *  Ganti nilai-nilai di bawah setelah kamu meluncurkan token di Pons.
- *  Cari komentar "TODO" untuk hal yang wajib kamu isi nanti.
+ *  Placeholder brand. Replace the values below with your own — especially the
+ *  ones marked TODO — after you launch your token on Pons.
  * ============================================================================
  */
 
 export const site = {
-  // --- Brand -------------------------------------------------------------
-  name: "STONK BROKERS",
-  company: "Your Labs LLC", // TODO: your company / studio name (footer)
-  ticker: "$STONK", // TODO: your token ticker
-  tagline: "Own a broker. Clock in. Get stonks.",
+  // --- Brand (placeholder — change these) --------------------------------
+  name: "PROJECT_ZERO", // TODO: your project name
+  ticker: "$ZERO", // TODO: your token ticker
+  host: "guest@pons", // shell prompt handle, e.g. user@host
+  company: "Zero Labs", // TODO: your studio / company (footer)
+  tagline: "A token, launched from the terminal — on Pons.",
   description:
-    "An on-chain broker collection on Robinhood Chain. Mint your broker, activate it, and let it work overtime — all powered by a token launched on Pons.",
+    "An on-chain experiment on Robinhood Chain. No brokers, no middlemen — just a fixed-supply token launched straight from the command line via Pons.",
 
   // --- Token (Pons) ------------------------------------------------------
-  // Fill in after you launch on the Pons Launchpad.
   token: {
-    // TODO: your token contract address on Robinhood Chain (0x...)
-    address: "0x0000000000000000000000000000000000000000",
-    // TODO: your token page on Pons ("Buy on Pons" button points here)
-    ponsUrl: "https://pons.family",
-    // Explorer link is derived from the address above.
-    launched: false, // set true once the token is live → button activates
+    address: "0x0000000000000000000000000000000000000000", // TODO
+    ponsUrl: "https://pons.family", // TODO: your token page on Pons
+    launched: false, // set true once live → "./buy" activates
+    supply: "1,000,000,000",
   },
 
-  // --- NFT Mint ----------------------------------------------------------
-  nft: {
-    collectionName: "StonkBrokers",
-    totalSupply: 4444,
-    mintPriceLabel: "FREE", // e.g. "0.0042 ETH"
-    // TODO: NFT contract address (leave 0x0 until deployed → demo mode)
-    contractAddress: "0x0000000000000000000000000000000000000000",
-    maxPerWallet: 3,
-  },
-
-  // --- Social links (replace with your own) ------------------------------
+  // --- Social links ------------------------------------------------------
   socials: {
     twitter: "https://x.com/",
     telegram: "https://t.me/",
@@ -61,3 +49,5 @@ export const explorerAddress = (addr: string) =>
   `${robinhoodChain.explorerUrl}/address/${addr}`;
 export const explorerToken = (addr: string) =>
   `${robinhoodChain.explorerUrl}/token/${addr}`;
+
+export const isPlaceholderAddr = (addr: string) => addr.startsWith("0x0000000");
