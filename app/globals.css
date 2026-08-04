@@ -141,6 +141,46 @@ body {
   color: #04120a;
 }
 
+/* ---------- Glitch title (periodic RGB-split bursts) ---------- */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+.glitch::before {
+  color: #22f0ff;
+  animation: glitchA 2s infinite;
+}
+.glitch::after {
+  color: #ff2ecb;
+  animation: glitchB 2.6s infinite;
+}
+/* Constant faint chromatic aberration + periodic hard bursts. */
+@keyframes glitchA {
+  0%, 66%, 86%, 100% { clip-path: inset(0 0 0 0); transform: translate(-2px, 0); opacity: 0.32; }
+  69% { clip-path: inset(6% 0 74% 0); transform: translate(-7px, -2px); opacity: 0.95; }
+  73% { clip-path: inset(44% 0 36% 0); transform: translate(7px, 1px); opacity: 0.95; }
+  77% { clip-path: inset(68% 0 10% 0); transform: translate(-6px, 2px); opacity: 0.9; }
+  81% { clip-path: inset(24% 0 54% 0); transform: translate(5px, -2px); opacity: 0.92; }
+}
+@keyframes glitchB {
+  0%, 60%, 84%, 100% { clip-path: inset(0 0 0 0); transform: translate(2px, 0); opacity: 0.32; }
+  63% { clip-path: inset(20% 0 60% 0); transform: translate(7px, 1px); opacity: 0.9; }
+  68% { clip-path: inset(54% 0 26% 0); transform: translate(-7px, -2px); opacity: 0.9; }
+  74% { clip-path: inset(80% 0 4% 0); transform: translate(6px, 2px); opacity: 0.88; }
+  80% { clip-path: inset(10% 0 72% 0); transform: translate(-5px, 2px); opacity: 0.9; }
+}
+
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 

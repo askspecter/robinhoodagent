@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Console } from "@/components/Console";
-import { Typewriter } from "@/components/Typewriter";
+import { HeroTitle } from "@/components/HeroTitle";
 import { BuyOnPons } from "@/components/BuyOnPons";
 import { ConnectButton } from "@/components/ConnectButton";
 import { TerminalWindow } from "@/components/TerminalWindow";
@@ -15,7 +15,7 @@ export default function Home() {
           <span className="text-stonk-green">$</span> ./init {site.name.toLowerCase()}
         </div>
         <h1 className="text-3xl sm:text-5xl font-bold leading-tight glow text-stonk-bright min-h-[2.4em] sm:min-h-[1.6em]">
-          <Typewriter text={site.tagline} speed={38} keepCursor />
+          <HeroTitle text={site.tagline} />
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-stonk-muted animate-rise">
           {site.description}
