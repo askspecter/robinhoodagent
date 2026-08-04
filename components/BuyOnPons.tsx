@@ -11,11 +11,10 @@ export function BuyOnPons({ className = "" }: { className?: string }) {
       rel="noreferrer"
       aria-disabled={!live}
       onClick={(e) => !live && e.preventDefault()}
-      className={`btn ${live ? "btn-solid" : "opacity-60 cursor-not-allowed"} inline-flex items-center gap-2 px-5 py-3 text-sm ${className}`}
+      className={`btn ${live ? "btn-solid" : "opacity-60 cursor-not-allowed"} inline-flex items-center gap-2 px-6 py-3 text-sm ${className}`}
       title={live ? "Buy on Pons" : "Token not launched on Pons yet"}
     >
-      <span className={live ? "" : "text-stonk-green"}>$</span>
-      {live ? `./buy ${site.ticker} --on pons` : `./buy — awaiting launch`}
+      {live ? `Buy ${site.ticker} on Pons` : `${site.ticker} — Coming soon on Pons`}
       <span aria-hidden>↗</span>
     </a>
   );

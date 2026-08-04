@@ -22,30 +22,20 @@ function PrivyConnect({ variant }: { variant: Variant }) {
   const { ready, authenticated, user, login, logout } = usePrivy();
   const address = user?.wallet?.address;
   const email = user?.email?.address;
-  const label = address ? short(address) : email || "session";
+  const label = address ? short(address) : email || "Account";
 
-  if (!ready) {
-    return <span className="text-stonk-muted text-sm">booting…</span>;
-  }
+  if (!ready) return <span className="text-stonk-muted text-sm">…</span>;
 
   if (!authenticated) {
     if (variant === "block") {
       return (
         <div className="space-y-2 w-full">
-          <button className="btn w-full py-3 text-sm text-left px-4" onClick={login}>
-            <span className="text-stonk-green">$</span> connect --wallet
-          </button>
-          <button className="btn w-full py-3 text-sm text-left px-4" onClick={login}>
-            <span className="text-stonk-green">$</span> auth --email
-          </button>
+          <button className="btn btn-solid w-full py-3 text-sm" onClick={login}>Connect Wallet</button>
+          <button className="btn w-full py-3 text-sm" onClick={login}>Email sign in</button>
         </div>
       );
     }
-    return (
-      <button className="btn px-3 py-2 text-sm" onClick={login}>
-        <span className="text-stonk-green">$</span> login
-      </button>
-    );
+    return <button className="btn px-4 py-2 text-sm" onClick={login}>Connect Wallet</button>;
   }
   return <Account label={label} address={address} onDisconnect={logout} variant={variant} />;
 }
@@ -63,15 +53,13 @@ function InjectedConnect({ variant }: { variant: Variant }) {
     try {
       await (window as any).ethereum?.request({
         method: "wallet_addEthereumChain",
-        params: [
-          {
-            chainId: "0x" + robinhood.id.toString(16),
-            chainName: robinhoodChain.name,
-            nativeCurrency: robinhoodChain.nativeCurrency,
-            rpcUrls: [robinhoodChain.rpcUrl],
-            blockExplorerUrls: [robinhoodChain.explorerUrl],
-          },
-        ],
+        params: [{
+          chainId: "0x" + robinhood.id.toString(16),
+          chainName: robinhoodChain.name,
+          nativeCurrency: robinhoodChain.nativeCurrency,
+          rpcUrls: [robinhoodChain.rpcUrl],
+          blockExplorerUrls: [robinhoodChain.explorerUrl],
+        }],
       });
     } catch {
       switchChain?.({ chainId: robinhood.id });
@@ -82,60 +70,33 @@ function InjectedConnect({ variant }: { variant: Variant }) {
     if (variant === "block") {
       return (
         <div className="space-y-2 w-full">
-          <button
-            className="btn w-full py-3 text-sm text-left px-4"
-            disabled={isPending || !injected}
-            onClick={() => injected && connect({ connector: injected })}
-          >
-            <span className="text-stonk-green">$</span>{" "}
-            {isPending ? "connecting…" : "connect --wallet"}
+          <button className="btn btn-solid w-full py-3 text-sm" disabled={isPending || !injected} onClick={() => injected && connect({ connector: injected })}>
+            {isPending ? "Connecting…" : "Connect Wallet"}
           </button>
-          <div className="btn w-full py-3 text-sm text-left px-4 opacity-50 cursor-not-allowed">
-            <span className="text-stonk-green">$</span> auth --email{" "}
-            <span className="text-stonk-muted text-xs">(set PRIVY_APP_ID)</span>
-          </div>
+          <div className="btn w-full py-3 text-sm opacity-50 cursor-not-allowed">Email sign in (set PRIVY_APP_ID)</div>
         </div>
       );
     }
     return (
-      <button
-        className="btn px-3 py-2 text-sm"
-        disabled={isPending || !injected}
-        onClick={() => injected && connect({ connector: injected })}
-      >
-        <span className="text-stonk-green">$</span> {isPending ? "…" : "connect"}
+      <button className="btn px-4 py-2 text-sm" disabled={isPending || !injected} onClick={() => injected && connect({ connector: injected })}>
+        {isPending ? "…" : "Connect Wallet"}
       </button>
     );
   }
 
   if (wrongChain) {
     return (
-      <button className="btn btn-solid px-3 py-2 text-sm" onClick={addChain}>
-        switch → Robinhood Chain
+      <button className={`btn btn-solid text-sm ${variant === "block" ? "w-full py-3" : "px-4 py-2"}`} onClick={addChain}>
+        Switch to Robinhood Chain
       </button>
     );
   }
-  return (
-    <Account
-      label={address ? short(address) : ""}
-      address={address}
-      onDisconnect={disconnect}
-      variant={variant}
-    />
-  );
+  return <Account label={address ? short(address) : ""} address={address} onDisconnect={disconnect} variant={variant} />;
 }
 
 /* ----------------------------- Connected ----------------------------- */
-function Account({
-  label,
-  address,
-  onDisconnect,
-  variant,
-}: {
-  label: string;
-  address?: string;
-  onDisconnect: () => void;
-  variant: Variant;
+function Account({ label, address, onDisconnect, variant }: {
+  label: string; address?: string; onDisconnect: () => void; variant: Variant;
 }) {
   const [open, setOpen] = useState(false);
   const { data: balance } = useBalance({ address: address as `0x${string}` | undefined });
@@ -143,19 +104,16 @@ function Account({
 
   if (variant === "block") {
     return (
-      <div className="win p-4 text-sm w-full">
+      <div className="panel p-4 text-sm w-full">
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-stonk-green animate-pulseGlow" />
           <span className="text-stonk-bright">{label}</span>
         </div>
-        <div className="text-stonk-muted mt-2">balance: {bal}</div>
-        <button className="btn w-full py-2 text-xs mt-3" onClick={onDisconnect}>
-          $ logout
-        </button>
+        <div className="text-stonk-muted mt-2">Balance: {bal}</div>
+        <button className="btn w-full py-2 text-xs mt-3" onClick={onDisconnect}>Disconnect</button>
       </div>
     );
   }
-
   return (
     <div className="relative">
       <button className="btn px-3 py-2 text-sm flex items-center gap-2" onClick={() => setOpen((v) => !v)}>
@@ -163,22 +121,15 @@ function Account({
         {label}
       </button>
       {open && (
-        <div className="win absolute right-0 mt-2 w-56 p-3 z-50 text-sm">
-          <div className="text-stonk-muted text-xs mb-1">balance</div>
+        <div className="panel absolute right-0 mt-2 w-56 p-3 z-50 text-sm">
+          <div className="text-stonk-muted text-xs mb-1">Balance</div>
           <div className="mb-3 text-stonk-bright">{bal}</div>
           {address && (
-            <a
-              className="btn block text-center py-2 mb-2 text-xs"
-              href={`${robinhoodChain.explorerUrl}/address/${address}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              view on explorer ↗
+            <a className="btn block text-center py-2 mb-2 text-xs" href={`${robinhoodChain.explorerUrl}/address/${address}`} target="_blank" rel="noreferrer">
+              View on Explorer ↗
             </a>
           )}
-          <button className="btn w-full py-2 text-xs" onClick={onDisconnect}>
-            $ logout
-          </button>
+          <button className="btn w-full py-2 text-xs" onClick={onDisconnect}>Disconnect</button>
         </div>
       )}
     </div>
