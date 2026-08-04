@@ -35,6 +35,35 @@ body {
   border-radius: 16px;
 }
 
+/* Signature dashed lime panel (Anvil NFT AMM look) */
+.dashed {
+  border: 2px dashed rgba(195, 245, 60, 0.85);
+  border-radius: 14px;
+  background: #0e0f11;
+}
+.dashed-dim {
+  border: 2px dashed rgba(195, 245, 60, 0.4);
+  border-radius: 12px;
+}
+.inset {
+  background: #141518;
+  border: 1px solid #262a30;
+  border-radius: 12px;
+}
+.tab {
+  border: 1px solid #262a30;
+  border-radius: 8px;
+  background: #16181b;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.tab-active {
+  border-color: #c3f53c;
+  color: #c3f53c;
+  background: rgba(195, 245, 60, 0.08);
+}
+
 .chip {
   border: 1px solid #25282e;
   background: rgba(195, 245, 60, 0.06);
