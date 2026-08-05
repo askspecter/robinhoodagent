@@ -72,7 +72,7 @@ export function CommandBar({ onRun }: { onRun: (cmd: string) => void }) {
   return (
     <div className="flex items-stretch gap-2 sm:gap-3 mt-5">
       <div className="box flex-1 min-w-0 flex items-center gap-2 px-3 sm:px-4 py-3 text-sm cursor-text" onClick={() => inp.current?.focus()}>
-        <span className="text-uni-green shrink-0">visitor@robinhood:~$</span>
+        <span className="text-uni-green shrink-0"><span className="hidden sm:inline">visitor@robinhood</span><span className="sm:hidden">you</span>:~$</span>
         <input
           ref={inp}
           value={v}
