@@ -31,7 +31,7 @@ export function LaunchBanner() {
   return (
     <div
       className="box mb-4 px-4 py-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
-      style={{ borderColor: "rgba(126,203,60,0.6)", background: "rgba(126,203,60,0.05)" }}
+      style={{ borderColor: "rgba(255,59,167,0.6)", background: "rgba(255,59,167,0.05)" }}
     >
       <div className="flex items-start sm:items-center gap-2 min-w-0">
         <span className="dot bg-uni-green animate-[blink_1.4s_step-end_infinite] shrink-0 mt-1 sm:mt-0" />

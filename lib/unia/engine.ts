@@ -30,7 +30,7 @@ export function initTokens(): Token[] {
     { symbol: "UNI", name: "Uniswap", color: "#ff2e88", price: 12.4 },
     { symbol: "ARB", name: "Arbitrum", color: "#28a0f0", price: 0.82 },
     { symbol: "PEPE", name: "Pepe", color: "#4fd06a", price: 0.0000091 },
-    { symbol: "UNIA", name: "Unia", color: "#7ecb3c", price: 0.0042 },
+    { symbol: "UNIA", name: "Unia", color: "#ff3ba7", price: 0.0042 },
   ];
   return base.map((b) => ({ ...b, prev: b.price }));
 }

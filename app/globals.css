@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { --green: #7ecb3c; --bg: #010401; }
+:root { --green: #ff3ba7; --bg: #070208; }
 
 html { scroll-behavior: smooth; }
 
@@ -13,7 +13,7 @@ body {
   letter-spacing: 0.01em;
   min-height: 100vh;
 }
-::selection { background: rgba(126, 203, 60, 0.3); color: #010401; }
+::selection { background: rgba(255, 59, 167, 0.3); color: #070208; }
 
 /* subtle CRT */
 .crt-scan { position: fixed; inset: 0; z-index: 60; pointer-events: none;
@@ -23,31 +23,31 @@ body {
 
 /* the terminal window */
 .win {
-  border: 1px solid rgba(126,203,60,0.5);
+  border: 1px solid rgba(255,59,167,0.5);
   border-radius: 12px;
   background: rgba(3,7,4,0.5);
 }
 .box {
-  border: 1px solid rgba(126,203,60,0.35);
+  border: 1px solid rgba(255,59,167,0.35);
   border-radius: 8px;
-  background: rgba(126,203,60,0.02);
+  background: rgba(255,59,167,0.02);
 }
 .dot { height: 11px; width: 11px; border-radius: 999px; display: inline-block; }
 
 .btn {
-  border: 1px solid rgba(126,203,60,0.6);
+  border: 1px solid rgba(255,59,167,0.6);
   color: #e9efe3; background: transparent; border-radius: 6px;
   text-transform: uppercase; letter-spacing: 0.08em;
   font-family: var(--font-geist-mono), monospace; transition: all 0.12s ease;
 }
-.btn:hover { background: rgba(126,203,60,0.12); color: #eafff1; }
-.btn-solid { background: var(--green); color: #04120a; border-color: var(--green); font-weight: 700; }
-.btn-solid:hover { filter: brightness(1.08); color: #04120a; }
+.btn:hover { background: rgba(255,59,167,0.12); color: #ffe6f4; }
+.btn-solid { background: var(--green); color: #12040a; border-color: var(--green); font-weight: 700; }
+.btn-solid:hover { filter: brightness(1.08); color: #12040a; }
 
 /* menu rows */
 .menu-row { border-radius: 6px; transition: background 0.12s ease; cursor: pointer; }
-.menu-row:hover { background: rgba(126,203,60,0.06); }
-.menu-row.active { background: rgba(126,203,60,0.1); }
+.menu-row:hover { background: rgba(255,59,167,0.06); }
+.menu-row.active { background: rgba(255,59,167,0.1); }
 
 .cursor { display: inline-block; width: 0.55em; height: 1.05em; translate: 0 0.16em; background: var(--green); animation: blink 1s step-end infinite; }
 @keyframes blink { 0%,49% { opacity: 1 } 50%,100% { opacity: 0 } }
@@ -55,7 +55,7 @@ body {
 /* progress bar as blocks */
 .bar { letter-spacing: 1px; }
 
-.up { color: #7ecb3c; }
+.up { color: #ff3ba7; }
 .down { color: #ff5c5c; }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }

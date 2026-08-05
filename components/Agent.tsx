@@ -46,7 +46,7 @@ function Sparkline({ data }: { data: number[] }) {
   const up = data[data.length - 1] >= data[0];
   return (
     <svg viewBox={`0 0 ${w} ${h}`} width="100%" height={h} preserveAspectRatio="none" className="mt-1">
-      <polyline points={pts} fill="none" stroke={up ? "#7ecb3c" : "#ff5c5c"} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+      <polyline points={pts} fill="none" stroke={up ? "#ff3ba7" : "#ff5c5c"} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
     </svg>
   );
 }

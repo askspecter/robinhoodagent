@@ -79,7 +79,7 @@ export function CommandBar({ onRun }: { onRun: (cmd: string) => void }) {
           onChange={(e) => setV(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && submit()}
           spellCheck={false} autoCapitalize="off" autoComplete="off"
-          className="flex-1 min-w-0 bg-transparent outline-none text-uni-text caret-[#7ecb3c]"
+          className="flex-1 min-w-0 bg-transparent outline-none text-uni-text caret-[#ff3ba7]"
           placeholder="talk to UNIA · try 'roast', 'gm', 'dare'"
           aria-label="command"
         />

@@ -54,7 +54,7 @@ export function WalletChip({ pass }: { pass: PassState }) {
 function PassCard({ pass }: { pass: PassState }) {
   const dim = pass.owned ? "" : "opacity-60";
   return (
-    <div className={`relative border border-uni-green/60 rounded-lg overflow-hidden ${dim}`} style={{ background: "rgba(126,203,60,0.05)" }}>
+    <div className={`relative border border-uni-green/60 rounded-lg overflow-hidden ${dim}`} style={{ background: "rgba(255,59,167,0.05)" }}>
       <div className="px-4 py-3 flex items-center justify-between border-b border-uni-line">
         <span className="text-uni-green tracking-widest text-sm">UNIA PASS</span>
         <span className="text-uni-muted text-xs">ROBINHOOD · #{robinhoodChain.id}</span>
@@ -297,7 +297,7 @@ export function RoastSection({ pass }: { pass: PassState }) {
             onKeyDown={(e) => e.key === "Enter" && run()}
             placeholder="0x… or vitalik.eth (blank = your wallet)"
             spellCheck={false} autoCapitalize="off" autoComplete="off"
-            className="box flex-1 min-w-0 px-3 py-2.5 bg-transparent outline-none text-uni-text text-sm caret-[#7ecb3c]"
+            className="box flex-1 min-w-0 px-3 py-2.5 bg-transparent outline-none text-uni-text text-sm caret-[#ff3ba7]"
             aria-label="wallet to roast"
           />
           <button onClick={run} disabled={loading} className="btn btn-solid shrink-0 px-5 py-2.5 disabled:opacity-60">{loading ? "roasting…" : "roast it"}</button>
