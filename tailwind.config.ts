@@ -8,24 +8,27 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // StonkBrokers-faithful: yellow-lime on near-black
+        // Zaibatsu-style green terminal
         stonk: {
-          green: "#c6f24d",
-          greenDim: "#8a9a5f",
-          bright: "#eef3e6",
+          green: "#4fe37f",
+          greenDim: "#3a6b4c",
+          bright: "#7dffa6",
+          blue: "#6f8dff",
+          blueBright: "#8fa6ff",
           amber: "#ffcf5a",
           gold: "#ffcf5a",
-          ink: "#0a0a0a",
-          panel: "#131414",
-          panel2: "#191a1a",
-          line: "#2a2c26",
+          ink: "#050705",
+          panel: "#0a0e0a",
+          panel2: "#0d120d",
+          line: "#1c3324",
           red: "#ff6b6b",
-          muted: "#8b8f86",
+          muted: "#6a8f79",
         },
       },
       fontFamily: {
-        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
-        display: ["var(--font-mono)", "ui-monospace", "monospace"],
+        mono: ["var(--font-geist-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+        display: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
+        pixel: ["var(--font-pixel)", "ui-monospace", "monospace"],
       },
       boxShadow: {
         glow: "0 0 0 1px rgba(196,248,44,0.22), 0 0 40px -10px rgba(196,248,44,0.45)",
