@@ -22,12 +22,13 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // live menu — the $UNIA hub reflects pass state
+  // live menu — the $UNIA hub is open (buy / token economy). status nods to
+  // pass ownership when held.
   const items = useMemo(
     () =>
       MENU.map((m) =>
         m.key === "unia"
-          ? { ...m, status: pass.owned ? "owned" : "soon", on: pass.owned }
+          ? { ...m, status: pass.owned ? "owned" : "buy", on: true }
           : m
       ),
     [pass.owned]
