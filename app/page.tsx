@@ -17,8 +17,8 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="dot bg-uni-green" />
-              <span className="dot bg-uni-green opacity-70" />
-              <span className="dot bg-uni-green opacity-40" />
+              <span className="dot bg-uni-green" />
+              <span className="dot bg-uni-green" />
             </div>
             <span className="text-uni-text text-sm">unia@robinhood: ~</span>
           </div>

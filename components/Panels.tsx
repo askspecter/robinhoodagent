@@ -60,7 +60,7 @@ function Bar({ pct }: { pct: number }) {
   const filled = Math.round((pct / 100) * total);
   return (
     <span className="bar text-uni-green">
-      [<span className="text-uni-green">{"■".repeat(filled)}</span><span className="text-uni-muted">{"□".repeat(total - filled)}</span>] {Math.round(pct)}%
+      [<span className="text-uni-green">{"■".repeat(filled)}</span><span className="text-uni-muted">{"□".repeat(total - filled)}</span>] <span className="text-uni-text">{Math.round(pct)}%</span>
     </span>
   );
 }
@@ -94,11 +94,6 @@ export function SystemStatus({ metrics, uptime }: { metrics: Metrics; uptime: st
 }
 
 /* ------------------------------- Logs -------------------------------- */
-const TAG_COLOR: Record<string, string> = {
-  INFO: "text-uni-text", CORE: "text-uni-green", NET: "text-uni-cyan",
-  MOD: "text-uni-green", CHAIN: "text-uni-green", USER: "text-uni-gold", SYS: "text-uni-muted",
-};
-
 export function Logs({ logs }: { logs: Log[] }) {
   const end = useRef<HTMLDivElement>(null);
   useEffect(() => { end.current?.scrollIntoView({ block: "end" }); }, [logs]);
@@ -111,9 +106,9 @@ export function Logs({ logs }: { logs: Log[] }) {
       <div className="p-4 space-y-1 text-sm overflow-y-auto no-scrollbar h-[240px]">
         {logs.map((l) => (
           <div key={l.id} className="flex gap-2 whitespace-pre-wrap break-words">
-            <span className="text-uni-muted shrink-0">{l.t}</span>
+            <span className="text-uni-green shrink-0">{l.t}</span>
             <span className="text-uni-muted shrink-0">[{l.tag.padEnd(5)}]</span>
-            <span className={TAG_COLOR[l.tag] || "text-uni-text"}>{l.text}</span>
+            <span className="text-uni-text">{l.text}</span>
           </div>
         ))}
         <div ref={end} />
@@ -137,7 +132,7 @@ export function CommandBar({ onRun }: { onRun: (cmd: string) => void }) {
           onChange={(e) => setV(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && submit()}
           spellCheck={false} autoCapitalize="off" autoComplete="off"
-          className="flex-1 bg-transparent outline-none text-uni-text caret-[#4dff3a]"
+          className="flex-1 bg-transparent outline-none text-uni-text caret-[#7ecb3c]"
           placeholder="type a command · try 'help'"
           aria-label="command"
         />
