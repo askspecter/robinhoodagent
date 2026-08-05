@@ -22,7 +22,7 @@ const pctStr = (p: number) => `${p >= 0 ? "+" : ""}${p.toFixed(2)}%`;
 function Delta({ pct, className = "" }: { pct: number; className?: string }) {
   const up = pct >= 0;
   return (
-    <span className={`${up ? "text-uni-green" : "text-uni-down"} ${className}`}>
+    <span className={`${up ? "text-uni-up" : "text-uni-down"} ${className}`}>
       {up ? "▲" : "▼"} {pctStr(pct)}
     </span>
   );
@@ -46,7 +46,7 @@ function Sparkline({ data }: { data: number[] }) {
   const up = data[data.length - 1] >= data[0];
   return (
     <svg viewBox={`0 0 ${w} ${h}`} width="100%" height={h} preserveAspectRatio="none" className="mt-1">
-      <polyline points={pts} fill="none" stroke={up ? "#ff3ba7" : "#ff5c5c"} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+      <polyline points={pts} fill="none" stroke={up ? "#35ff7a" : "#ff5c5c"} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
     </svg>
   );
 }

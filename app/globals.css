@@ -55,7 +55,7 @@ body {
 /* progress bar as blocks */
 .bar { letter-spacing: 1px; }
 
-.up { color: #ff3ba7; }
+.up { color: #35ff7a; }
 .down { color: #ff5c5c; }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }

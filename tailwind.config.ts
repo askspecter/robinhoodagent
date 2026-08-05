@@ -16,7 +16,7 @@ const config: Config = {
           pink: "#ff2e88",
           pinkSoft: "#ff77b6",
           purple: "#b06bff",
-          up: "#ff3ba7",
+          up: "#35ff7a",
           down: "#ff5c5c",
           gold: "#ffcf5a",
           cyan: "#45d6ff",
