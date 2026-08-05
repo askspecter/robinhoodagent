@@ -3,126 +3,84 @@
 import type { Mood } from "@/lib/unia/engine";
 
 const AURA: Record<Mood, string> = {
-  euphoric: "#31d68a",
-  happy: "#69e0a6",
-  neutral: "#ff5cae",
-  nervous: "#ffcf5a",
-  crying: "#ff8ad4",
-  rekt: "#ff5c5c",
+  euphoric: "#35ff7a",
+  happy: "#7dffb0",
+  neutral: "#35ff7a",
+  nervous: "#ffb000",
+  crying: "#45d6ff",
+  rekt: "#ff4d4d",
 };
 
-function Eyes({ mood }: { mood: Mood }) {
-  const s = "#1a1030";
-  if (mood === "euphoric")
-    return (
-      <g fill="none" stroke={s} strokeWidth="4" strokeLinecap="round">
-        <path d="M70 92 l7 -8 7 8 M70 84 l7 8 7 -8" />
-        <path d="M116 92 l7 -8 7 8 M116 84 l7 8 7 -8" />
-      </g>
-    );
-  if (mood === "happy")
-    return (
-      <g fill="none" stroke={s} strokeWidth="5" strokeLinecap="round">
-        <path d="M70 90 q7 -10 14 0" />
-        <path d="M116 90 q7 -10 14 0" />
-      </g>
-    );
-  if (mood === "nervous")
-    return (
-      <g fill={s}>
-        <circle cx="77" cy="90" r="4" />
-        <circle cx="123" cy="90" r="4" />
-      </g>
-    );
-  if (mood === "crying")
-    return (
-      <g stroke={s} strokeWidth="4" fill="none" strokeLinecap="round">
-        <path d="M70 90 q7 8 14 0" />
-        <path d="M116 90 q7 8 14 0" />
-        <path d="M77 96 q-3 12 -1 22" stroke="#6cc9ff" />
-        <path d="M123 96 q-3 12 -1 22" stroke="#6cc9ff" />
-      </g>
-    );
+function Eye({ mood, c }: { mood: Mood; c: string }) {
+  const x = 150, y = 128;
   if (mood === "rekt")
-    return (
-      <g stroke={s} strokeWidth="4" strokeLinecap="round">
-        <path d="M71 84 l12 12 M83 84 l-12 12" />
-        <path d="M117 84 l12 12 M129 84 l-12 12" />
-      </g>
-    );
-  return (
-    <g fill={s}>
-      <circle cx="77" cy="89" r="6" />
-      <circle cx="123" cy="89" r="6" />
-      <circle cx="79" cy="87" r="2" fill="#fff" />
-      <circle cx="125" cy="87" r="2" fill="#fff" />
-    </g>
-  );
+    return <g stroke={c} strokeWidth="3.5" strokeLinecap="round"><path d={`M${x - 6},${y - 6} l12,12 M${x + 6},${y - 6} l-12,12`} /></g>;
+  if (mood === "euphoric")
+    return <text x={x} y={y + 7} fill={c} fontSize="22" textAnchor="middle" fontWeight="bold">*</text>;
+  if (mood === "crying")
+    return <g stroke={c} strokeWidth="3" fill="none" strokeLinecap="round"><path d={`M${x - 7},${y} q7,7 14,0`} /><path d={`M${x - 3},${y + 5} q-3,16 -1,30`} /></g>;
+  if (mood === "nervous")
+    return <circle cx={x} cy={y} r="3" fill={c} />;
+  return <g><circle cx={x} cy={y} r="5.5" fill={c} /><circle cx={x + 1.5} cy={y - 1.5} r="1.6" fill="#031007" /></g>;
 }
 
-function Mouth({ mood }: { mood: Mood }) {
-  const s = "#1a1030";
-  const d =
-    mood === "euphoric" ? "M84 116 q16 20 32 0 q-16 8 -32 0" :
-    mood === "happy" ? "M88 116 q12 12 24 0" :
-    mood === "nervous" ? "M90 118 q5 -6 10 0 q5 6 10 0" :
-    mood === "crying" ? "M90 122 q10 -12 20 0" :
-    mood === "rekt" ? "M88 120 q6 -5 12 0 q6 5 12 0" :
-    "M92 117 q8 6 16 0";
-  return <path d={d} fill={mood === "euphoric" ? "#ff3d8a" : "none"} stroke={s} strokeWidth="4" strokeLinecap="round" />;
-}
-
-export function Unicorn({ mood, speech }: { mood: Mood; speech?: string }) {
-  const aura = AURA[mood];
+export function Unicorn({ mood, speech, glitching }: { mood: Mood; speech?: string; glitching?: boolean }) {
+  const c = AURA[mood];
   return (
-    <div className="relative flex flex-col items-center">
-      {speech && (
-        <div className="card animate-pop max-w-xs mb-4 px-4 py-3 text-sm text-uni-text text-center relative shadow-pink">
-          {speech}
-          <span className="absolute left-1/2 -bottom-2 -translate-x-1/2 w-4 h-4 rotate-45 bg-uni-card border-r border-b border-uni-line" />
-        </div>
-      )}
-      <div className="relative animate-float" style={{ filter: `drop-shadow(0 12px 40px ${aura}66)` }}>
-        <svg width="230" height="230" viewBox="0 0 200 200">
+    <div className="flex flex-col items-center w-full">
+      <div className={`relative ${glitching ? "animate-glitch" : "animate-floaty"}`} style={{ filter: `drop-shadow(0 0 30px ${c}55)` }}>
+        <svg width="320" height="320" viewBox="0 0 300 300">
           <defs>
-            <linearGradient id="horn" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#fff0a8" />
-              <stop offset="1" stopColor="#ffcf5a" />
-            </linearGradient>
-            <radialGradient id="glow">
-              <stop offset="0" stopColor={aura} stopOpacity="0.55" />
-              <stop offset="1" stopColor={aura} stopOpacity="0" />
-            </radialGradient>
+            <radialGradient id="uglow"><stop offset="0" stopColor={c} stopOpacity="0.38" /><stop offset="1" stopColor={c} stopOpacity="0" /></radialGradient>
           </defs>
-          <circle cx="100" cy="105" r="92" fill="url(#glow)" />
-          {/* mane */}
-          <path d="M60 60 q-22 20 -14 54 q-18 -6 -8 -34 q-12 6 -6 -14 q10 -20 40 -18Z" fill="#8f5cff" />
-          <path d="M140 60 q22 20 14 54 q18 -6 8 -34 q12 6 6 -14 q-10 -20 -40 -18Z" fill="#ff007a" />
-          {/* ears */}
-          <path d="M64 58 l10 -18 10 16Z" fill="#ff8ad4" />
-          <path d="M136 58 l-10 -18 -10 16Z" fill="#ff8ad4" />
-          {/* horn */}
-          <path d="M100 12 l10 40 l-20 0Z" fill="url(#horn)" stroke="#e6a92e" strokeWidth="1.5" />
-          {mood === "euphoric" && <circle cx="100" cy="20" r="6" fill="#fff0a8" opacity="0.9" />}
-          {/* head */}
-          <ellipse cx="100" cy="102" rx="62" ry="58" fill="#ff9ed6" />
-          <ellipse cx="100" cy="112" rx="40" ry="34" fill="#ffc3e6" />
-          {/* cheeks */}
-          <circle cx="64" cy="112" r="9" fill="#ff5cae" opacity="0.55" />
-          <circle cx="136" cy="112" r="9" fill="#ff5cae" opacity="0.55" />
-          <Eyes mood={mood} />
-          <Mouth mood={mood} />
-          {/* nostrils */}
-          <circle cx="94" cy="126" r="2.2" fill="#c94f92" />
-          <circle cx="106" cy="126" r="2.2" fill="#c94f92" />
-          {mood === "nervous" && <path d="M132 78 q6 10 0 18 q-6 -8 0 -18Z" fill="#6cc9ff" />}
-          {mood === "euphoric" && (
-            <g fill="#ffcf5a">
-              <path d="M40 50 l3 6 6 3 -6 3 -3 6 -3 -6 -6 -3 6 -3Z" />
-              <path d="M162 66 l2 4 4 2 -4 2 -2 4 -2 -4 -4 -2 4 -2Z" />
-            </g>
-          )}
+          <circle cx="150" cy="155" r="135" fill="url(#uglow)" />
+
+          {/* flowing mane (magenta / purple) down the neck/back */}
+          <g fill="none" strokeWidth="7" strokeLinecap="round" style={{ filter: "drop-shadow(0 0 7px rgba(255,46,136,0.6))" }}>
+            <path d="M176,86 C210,96 216,150 202,205 C196,232 208,250 214,262" stroke="#ff2e88" />
+            <path d="M168,80 C206,84 222,140 214,200 C210,232 224,248 228,262" stroke="#b06bff" opacity="0.85" />
+            <path d="M184,96 C206,120 206,160 196,196" stroke="#ff77b6" opacity="0.8" />
+          </g>
+
+          {/* unicorn head + neck bust, facing left (line-art) */}
+          <path
+            d="M52,182
+               C50,170 60,154 82,144
+               C110,122 138,108 156,96
+               C166,88 176,86 186,96
+               C200,116 210,158 222,208
+               C230,236 234,254 226,266
+               L150,266
+               C132,266 120,254 116,232
+               C106,214 94,206 80,202
+               C66,198 56,192 52,182 Z"
+            fill={`${c}0f`} stroke={c} strokeWidth="3.5" strokeLinejoin="round"
+            style={{ filter: `drop-shadow(0 0 5px ${c})` }}
+          />
+
+          {/* ear */}
+          <path d="M172,90 C168,60 190,52 200,74 C196,88 186,92 172,90 Z" fill={`${c}0f`} stroke={c} strokeWidth="3" />
+
+          {/* spiral horn (points up-forward) */}
+          <g style={{ filter: "drop-shadow(0 0 9px rgba(255,176,0,0.85))" }}>
+            <path d="M150,96 L126,20 L166,92 Z" fill="rgba(255,176,0,0.16)" stroke="#ffb000" strokeWidth="2.5" strokeLinejoin="round" />
+            <path d="M143,78 l16,-3 M146,66 l14,-3 M149,54 l12,-3 M151,42 l10,-3 M153,30 l7,-2" stroke="#ffb000" strokeWidth="2" fill="none" />
+          </g>
+          {mood === "euphoric" && <circle cx="128" cy="26" r="7" fill="#fff0a8" opacity="0.9" />}
+
+          <Eye mood={mood} c={c} />
+          {/* nostril near muzzle tip */}
+          <ellipse cx="70" cy="176" rx="5" ry="4" fill="none" stroke={c} strokeWidth="2.5" />
+          {mood === "nervous" && <path d="M196,150 q6,10 0,20 q-6,-10 0,-20 Z" fill="#45d6ff" />}
         </svg>
+      </div>
+
+      <div className="mt-3 text-center w-full max-w-md min-h-[3em]">
+        {speech && (
+          <p className={`text-sm ${glitching ? "text-uni-down glow-mag" : "text-uni-text"} leading-snug`}>
+            <span className="text-uni-pink">unia&gt;</span> {speech}
+          </p>
+        )}
       </div>
     </div>
   );

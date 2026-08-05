@@ -1,19 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { Providers } from "./providers";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+import { MatrixRain } from "@/components/MatrixRain";
 
 export const metadata: Metadata = {
-  title: "Unia — the autonomous degen unicorn 🦄",
-  description: "Unia trades live, thinks out loud, and roasts your wallet. A Uniswap-themed AI agent.",
+  title: "UNIA // degen.terminal",
+  description: "An autonomous unicorn that trades live, thinks out loud, and roasts your wallet.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body>
+    <html lang="en" className={GeistMono.variable}>
+      <body className="antialiased">
+        <MatrixRain />
+        <div className="crt-beam" />
+        <div className="crt-scan" />
+        <div className="crt-flick" />
+        <div className="crt-vig" />
         <Providers>{children}</Providers>
       </body>
     </html>

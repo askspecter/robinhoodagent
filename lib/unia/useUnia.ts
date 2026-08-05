@@ -24,6 +24,13 @@ export function useUnia() {
   const [, force] = useReducer((x) => x + 1, 0);
   const idRef = useRef(1);
   const mutedRef = useRef(false);
+  const glitchRef = useRef(false);
+
+  const glitch = () => {
+    glitchRef.current = true;
+    force();
+    setTimeout(() => { glitchRef.current = false; force(); }, 520);
+  };
   const st = useRef<St>({
     tokens: initTokens(),
     positions: [],
@@ -63,8 +70,9 @@ export function useUnia() {
     // React to a big market event
     if (event) {
       if (event.pct > 0) push(line.pump(event.symbol, event.pct), "pump", true);
-      else push(line.dump(event.symbol, -event.pct), "dump", true);
+      else { push(line.dump(event.symbol, -event.pct), "dump", true); if (event.pct < -18) glitch(); }
     }
+    if (Math.random() < 0.12) push(line.sys(), "sys", false);
 
     // Decide + act
     const d = decide(s.tokens, s.positions, s.cash);
@@ -85,6 +93,7 @@ export function useUnia() {
       if (p) { p.qty -= d.qty; if (p.qty < 1e-9) s.positions = s.positions.filter((x) => x.symbol !== d.symbol); }
       s.trades = [{ id: idRef.current++, side: "SELL", symbol: d.symbol, qty: d.qty, price: tk.price, usd, t: Date.now() }, ...s.trades.slice(0, 19)];
       push(d.kind === "panic" ? line.panic(d.symbol) : line.sell(d.symbol), "sell", true);
+      if (d.kind === "panic") glitch();
     } else if (!event && Math.random() < 0.25) {
       push(line.idle(), "idle", Math.random() < 0.5);
     }
@@ -103,7 +112,7 @@ export function useUnia() {
   // loop
   useEffect(() => {
     if (!st.current.awake) return;
-    const id = setInterval(tick, 1600);
+    const id = setInterval(tick, 1100);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [st.current.awake, tick]);
@@ -120,7 +129,7 @@ export function useUnia() {
 
   const dare = useCallback(() => {
     const s = st.current;
-    if (s.cash < 100) { push("i have no cash left. you did this. 🫠", "sys", true); force(); return; }
+    if (s.cash < 100) { push("i have no cash left. you did this. i hope you are happy.", "sys", true); force(); return; }
     const tk = pick(s.tokens);
     const usd = Math.min(s.cash * (0.5 + Math.random() * 0.5), s.cash - 20);
     const qty = usd / tk.price;
@@ -128,7 +137,7 @@ export function useUnia() {
     const ex = s.positions.find((p) => p.symbol === tk.symbol);
     if (ex) { ex.qty += qty; } else s.positions.push({ symbol: tk.symbol, qty, cost: tk.price });
     s.trades = [{ id: idRef.current++, side: "BUY", symbol: tk.symbol, qty, price: tk.price, usd, t: Date.now() }, ...s.trades.slice(0, 19)];
-    push(`you DARED me. full send into ${tk.symbol}. no thoughts, only vibes 🦄💥`, "buy", true);
+    push(`you DARED me. FULL SEND into ${tk.symbol}. no thoughts. only violence.`, "buy", true);
     force();
   }, [push]);
 
@@ -153,6 +162,7 @@ export function useUnia() {
     awake: s.awake,
     netWorth: nw,
     pnlPct,
+    glitching: glitchRef.current,
     muted: mutedRef.current,
     wake,
     dare,

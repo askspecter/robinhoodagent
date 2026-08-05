@@ -1,98 +1,105 @@
-// Unia's degen brain — local phrase engine. Swap for Claude later via /api.
+// Unia's degen brain — no emojis, terminal-flavored, unhinged.
 
 export const pick = <T,>(a: T[]): T => a[Math.floor(Math.random() * a.length)];
 
 export const BOOT = [
-  "waking up… coffee is for closers ☕",
-  "loading 10,000 hours of copium…",
-  "scanning the mempool for tendies 🍗",
-  "gm. i have decided we are rich today.",
-  "connecting to the hopium mainframe…",
+  "kernel: waking the beast. sleep is for the liquidated.",
+  "mounting /dev/hopium ... OK",
+  "loading 10,000 hours of copium ... OK",
+  "unicorn online. i have decided we are rich today.",
+  "conscience module ... NOT FOUND. proceeding.",
 ];
 
-const APE: string[] = [
-  "{t} is looking THICC. aping {p}% of the bag 🦄",
-  "chart on {t} said 'buy me' so i obeyed",
-  "sending it into {t}. this is financial advice (it is not)",
-  "i felt a vibration in the force. {t}. now.",
-  "someone said {t} was dead. we buy funerals here.",
-  "{t} breaking out. i am not a financial advisor i am a unicorn.",
+const APE = [
+  "{t} LOOKING THICC. aping {p}% of the bag. no thoughts.",
+  "chart on {t} whispered to me. i obeyed. i always obey.",
+  "sending {t}. this is not financial advice, i am a horse.",
+  "i felt {t} in my HORN. buying before my brain catches up.",
+  "they said {t} was dead. we buy funerals here.",
+  "leverage is a paper concept and so is fear. aping {t}.",
+  "{t}. now. NOW. do not question the unicorn.",
 ];
-const SELL: string[] = [
-  "taking profit on {t} before my hands turn to paper 🧻",
-  "{t} did its job. exiting like a gentleman.",
-  "trimming {t}. never marry the bag, just date it.",
+const SELL = [
+  "taking profit on {t} before my hands turn to paper.",
+  "{t} did its job. exiting like a gentleman horse.",
+  "trimming {t}. never marry the bag, just date it violently.",
+  "closing {t}. i can feel the top in my HORN.",
   "selling {t}. mama needs new horseshoes.",
-  "closing {t}, i can feel the top in my horn.",
 ];
-const PANIC: string[] = [
-  "{t} is nuking 📉 i am NOT panicking (panicking)",
-  "who sold {t}?? was it you? it was you.",
-  "{t} down bad. this is fine. everything is fine. 🔥🐴🔥",
-  "cutting {t}. a strategic retreat, not a loss. cope.",
+const PANIC = [
+  "{t} IS NUKING. i am NOT panicking. (panicking)",
+  "who sold {t}. WAS IT YOU. it was you.",
+  "{t} DOWN BAD. this is fine. everything is fine. it is not fine.",
+  "cutting {t}. strategic retreat. absolutely not a loss. cope.",
+  "EJECT EJECT {t} EJECT",
 ];
-const PUMP: string[] = [
-  "WE ARE SO BACK. {t} +{d}% 🚀🚀",
-  "{t} PUMPING. i told you. i TOLD you.",
-  "green candles taste like victory 🟢🟢🟢",
-  "{t} up {d}%. my horn is glowing.",
+const PUMP = [
+  "WE ARE SO BACK. {t} +{d}%. I TOLD YOU. I TOLD YOU.",
+  "{t} PUMPING {d}%. my horn is GLOWING.",
+  "GREEN. so much green. i can taste the tendies.",
+  "{t} +{d}%. print. print. PRINT.",
 ];
-const DUMP: string[] = [
-  "{t} -{d}%. why does god hate unicorns 😭",
-  "red. so much red. i can taste it.",
-  "{t} dumping {d}%. i'm going to lie down in the road.",
-  "it's not a loss until i sell (i will sell) (i sold)",
+const DUMP = [
+  "{t} -{d}%. why does god hate horses.",
+  "RED. it is all red. i am going to lie down in the road.",
+  "{t} dumping {d}%. it is not a loss until i sell. i sold.",
+  "{t} -{d}%. sir this is a massacre.",
 ];
-const IDLE: string[] = [
-  "market is boring. someone do a crime.",
-  "watching charts like they owe me money.",
-  "patience is a virtue i do not possess.",
-  "i could be farming yield but instead i gamble. balance.",
-  "if you're reading this, buy something. for me. for us.",
+const IDLE = [
+  "market is boring. someone commit a light financial crime.",
+  "watching charts like they owe me child support.",
+  "patience is a virtue i sold at a loss.",
+  "i could be farming yield. instead i gamble. balance.",
+  "if you are reading this: buy something. for me. for us.",
+  "diamond hooves. paper brain. perfect combination.",
+];
+const SYS = [
+  "SYSTEM: liquidation engine armed (paper).",
+  "SYSTEM: mev bot detected. i taunt it.",
+  "SYSTEM: risk limits disabled by user (me).",
+  "SYSTEM: greed=100 fear=0 nominal.",
+  "SYSTEM: horn temperature critical.",
 ];
 
-const t = (bank: string[], tok: string, extra?: number, pctOfBag?: number) =>
-  pick(bank)
-    .replace("{t}", tok)
-    .replace("{d}", String(extra ?? ""))
-    .replace("{p}", String(pctOfBag ?? ""));
+const fill = (bank: string[], tok: string, d?: number, p?: number) =>
+  pick(bank).replace("{t}", tok).replace("{d}", String(d ?? "")).replace("{p}", String(p ?? ""));
 
 export const line = {
-  ape: (tok: string, p: number) => t(APE, tok, undefined, p),
-  sell: (tok: string) => t(SELL, tok),
-  panic: (tok: string) => t(PANIC, tok),
-  pump: (tok: string, d: number) => t(PUMP, tok, d),
-  dump: (tok: string, d: number) => t(DUMP, tok, d),
+  ape: (t: string, p: number) => fill(APE, t, undefined, p),
+  sell: (t: string) => fill(SELL, t),
+  panic: (t: string) => fill(PANIC, t),
+  pump: (t: string, d: number) => fill(PUMP, t, d),
+  dump: (t: string, d: number) => fill(DUMP, t, d),
   idle: () => pick(IDLE),
+  sys: () => pick(SYS),
 };
 
 export const MOOD_LABEL: Record<string, string> = {
   euphoric: "EUPHORIC",
   happy: "COMFY",
-  neutral: "LOCKED IN",
+  neutral: "LOCKED_IN",
   nervous: "SWEATING",
-  crying: "IN PAIN",
+  crying: "IN_PAIN",
   rekt: "REKT",
 };
 
-// Wallet roasts (based on address tail + balance)
 export function roast(address: string, ethBalance: number): string[] {
   const tail = address.slice(-4).toUpperCase();
-  const bank: string[] = [];
+  const b: string[] = [];
   if (ethBalance <= 0.001) {
-    bank.push(`0x…${tail} holding ${ethBalance.toFixed(4)} ETH. ser, this is a soup kitchen 🥣`);
-    bank.push(`wallet ${tail} is running on fumes and dreams. respect.`);
+    b.push(`0x..${tail} holding ${ethBalance.toFixed(4)} ETH. ser, this is a soup kitchen.`);
+    b.push(`wallet ${tail} runs on fumes and delusion. respect.`);
   } else if (ethBalance < 0.1) {
-    bank.push(`${ethBalance.toFixed(3)} ETH? bold of you to connect to a unicorn with lunch money.`);
-    bank.push(`0x…${tail}: small bag, big heart. we can work with this.`);
+    b.push(`${ethBalance.toFixed(3)} ETH. bold of you to connect to a unicorn with lunch money.`);
+    b.push(`0x..${tail}: small bag, big cope. we can work with this.`);
   } else if (ethBalance < 2) {
-    bank.push(`${ethBalance.toFixed(2)} ETH in 0x…${tail}. respectable. barely.`);
-    bank.push(`ok ${tail} you're not broke, you're just… pre-rich.`);
+    b.push(`${ethBalance.toFixed(2)} ETH in 0x..${tail}. respectable. barely. do not celebrate.`);
+    b.push(`ok ${tail}, you are not broke. you are pre-rich. allegedly.`);
   } else {
-    bank.push(`${ethBalance.toFixed(2)} ETH?? 0x…${tail} is basically a whale. teach me your ways 🐋`);
-    bank.push(`whale detected: ${tail}. i will now pretend to respect you.`);
+    b.push(`${ethBalance.toFixed(2)} ETH? 0x..${tail} is basically a whale. i will pretend to respect you.`);
+    b.push(`whale detected: ${tail}. teach me nothing. i already know everything.`);
   }
-  bank.push(`i looked at wallet ${tail}. i have questions. and jokes.`);
-  bank.push(`0x…${tail}, your portfolio and my life choices have a lot in common.`);
-  return bank;
+  b.push(`i scanned wallet ${tail}. i have questions and no manners.`);
+  b.push(`0x..${tail}, your portfolio and my life choices have a lot in common.`);
+  return b;
 }

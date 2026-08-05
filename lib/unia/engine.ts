@@ -26,11 +26,11 @@ export const START_CASH = 10000;
 export function initTokens(): Token[] {
   const base: Omit<Token, "prev">[] = [
     { symbol: "WETH", name: "Ether", emoji: "Ξ", color: "#8f9dff", price: 3200 },
-    { symbol: "UNI", name: "Uniswap", emoji: "🦄", color: "#ff007a", price: 12.4 },
-    { symbol: "PEPE", name: "Pepe", emoji: "🐸", color: "#4fd06a", price: 0.0000091 },
-    { symbol: "DEGEN", name: "Degen", emoji: "🎩", color: "#a06bff", price: 0.014 },
-    { symbol: "WBTC", name: "Bitcoin", emoji: "₿", color: "#f7931a", price: 96000 },
-    { symbol: "MOG", name: "Mog", emoji: "😼", color: "#ffcf5a", price: 0.0000015 },
+    { symbol: "UNI", name: "Uniswap", emoji: "U", color: "#ff2e88", price: 12.4 },
+    { symbol: "PEPE", name: "Pepe", emoji: "P", color: "#4fd06a", price: 0.0000091 },
+    { symbol: "DEGEN", name: "Degen", emoji: "D", color: "#b06bff", price: 0.014 },
+    { symbol: "WBTC", name: "Bitcoin", emoji: "B", color: "#f7931a", price: 96000 },
+    { symbol: "MOG", name: "Mog", emoji: "M", color: "#ffb000", price: 0.0000015 },
   ];
   return base.map((b) => ({ ...b, prev: b.price }));
 }
@@ -39,10 +39,10 @@ export function initTokens(): Token[] {
 export function tickTokens(tokens: Token[]): { tokens: Token[]; event?: { symbol: string; pct: number } } {
   let event: { symbol: string; pct: number } | undefined;
   const next = tokens.map((tk) => {
-    let drift = (Math.random() - 0.5) * 0.02; // ±1%
-    if (Math.random() < 0.06) {
-      // event: big spike
-      const mag = 0.08 + Math.random() * 0.22; // 8%–30%
+    let drift = (Math.random() - 0.5) * 0.03; // ±1.5%
+    if (Math.random() < 0.12) {
+      // event: violent spike
+      const mag = 0.1 + Math.random() * 0.4; // 10%–50%
       const dir = Math.random() < 0.5 ? 1 : -1;
       drift = dir * mag;
       const pct = Math.round(dir * mag * 100);

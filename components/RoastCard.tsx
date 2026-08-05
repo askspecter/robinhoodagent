@@ -8,8 +8,8 @@ import { roast as makeRoast, pick } from "@/lib/unia/phrases";
 export function RoastCard({ onRoast }: { onRoast: (lines: string[]) => void }) {
   const { address, isConnected } = useAccount();
   const { data: bal } = useBalance({ address });
-  const [text, setText] = useState<string>("");
-  const done = useRef<string>("");
+  const [text, setText] = useState("");
+  const done = useRef("");
 
   useEffect(() => {
     if (!isConnected || !address) { done.current = ""; setText(""); return; }
@@ -23,24 +23,27 @@ export function RoastCard({ onRoast }: { onRoast: (lines: string[]) => void }) {
   }, [isConnected, address, bal, onRoast]);
 
   return (
-    <div className="card p-5 relative overflow-hidden">
-      <div className="absolute -right-6 -top-6 text-7xl opacity-10 select-none">🔥</div>
-      <h3 className="text-sm font-semibold tracking-wide mb-3">GET ROASTED BY UNIA 🔥</h3>
-      {!isConnected ? (
-        <div>
-          <p className="text-sm text-uni-muted mb-4">
-            Connect your wallet and let a unicorn read you for filth. She has seen your kind before.
-          </p>
-          <ConnectButton />
-        </div>
-      ) : (
-        <div>
-          <p className="text-lg leading-snug grad-text font-semibold">“{text}”</p>
-          <p className="text-xs text-uni-muted mt-3">
-            balance: {bal ? `${Number(bal.formatted).toFixed(4)} ${bal.symbol}` : "…"} · she said it out loud too.
-          </p>
-        </div>
-      )}
+    <div className="box-mag box">
+      <div className="bar px-4 py-2 text-xs text-uni-muted" style={{ borderColor: "rgba(255,46,136,0.25)" }}>
+        unia@degen:~ # ./roast --wallet
+      </div>
+      <div className="p-5">
+        {!isConnected ? (
+          <div>
+            <p className="text-sm text-uni-muted mb-4">
+              connect a wallet and let the unicorn read your balance for filth. she has seen your kind before.
+            </p>
+            <ConnectButton />
+          </div>
+        ) : (
+          <div>
+            <p className="text-lg leading-snug text-uni-pink glow-mag">&quot;{text}&quot;</p>
+            <p className="text-xs text-uni-muted mt-3">
+              bal: {bal ? `${Number(bal.formatted).toFixed(4)} ${bal.symbol}` : "…"} · she said it out loud too.
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
