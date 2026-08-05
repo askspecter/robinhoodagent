@@ -5,8 +5,8 @@ export function Unicorn() {
       <img
         src="/unicorn.png"
         alt="UNIA unicorn"
-        className="w-full max-w-[360px] select-none"
-        style={{ filter: "drop-shadow(0 0 26px rgba(255,59,167,0.35))" }}
+        className="w-full max-w-[380px] select-none"
+        style={{ mixBlendMode: "screen" }}
         draggable={false}
       />
     </div>
