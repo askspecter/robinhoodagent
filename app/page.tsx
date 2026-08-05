@@ -9,6 +9,7 @@ import { Unicorn } from "@/components/Unicorn";
 import { Logo, Menu, CommandBar } from "@/components/Panels";
 import { BagPanel, MarketPanel, HoldingsPanel, TapePanel, FeedPanel } from "@/components/Agent";
 import { WalletChip, UniaHub, RoastSection, AboutSection } from "@/components/Sections";
+import { LaunchBanner } from "@/components/Launch";
 
 export default function Home() {
   const unia = useUnia();
@@ -79,6 +80,9 @@ export default function Home() {
             <span className="btn px-3 py-1.5 text-xs hidden sm:inline">UNIA v1.0.0</span>
           </div>
         </div>
+
+        {/* launch countdown → pools.trade */}
+        <LaunchBanner />
 
         {/* top: unicorn + logo/menu (persistent nav) */}
         <section className="grid lg:grid-cols-2 gap-6 items-center py-4">

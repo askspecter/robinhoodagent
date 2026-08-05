@@ -184,8 +184,9 @@ const TONE: Record<Tone, string> = {
 export function FeedPanel({ thoughts, muted, thinking, onToggleMute }: {
   thoughts: Thought[]; muted: boolean; thinking?: boolean; onToggleMute: () => void;
 }) {
-  const end = useRef<HTMLDivElement>(null);
-  useEffect(() => { end.current?.scrollIntoView({ block: "end" }); }, [thoughts]);
+  const box = useRef<HTMLDivElement>(null);
+  // keep the feed pinned to the bottom WITHOUT scrolling the whole page
+  useEffect(() => { const el = box.current; if (el) el.scrollTop = el.scrollHeight; }, [thoughts, thinking]);
   return (
     <div className="box flex flex-col">
       <PanelHead
@@ -200,7 +201,7 @@ export function FeedPanel({ thoughts, muted, thinking, onToggleMute }: {
           </div>
         }
       />
-      <div className="p-4 space-y-1 text-sm overflow-y-auto no-scrollbar h-[300px]">
+      <div ref={box} className="p-4 space-y-1 text-sm overflow-y-auto no-scrollbar h-[300px]">
         {thoughts.length === 0 && <div className="text-uni-muted">booting the beast…</div>}
         {thoughts.map((t) => (
           <div key={t.id} className="whitespace-pre-wrap break-words leading-snug">
@@ -209,7 +210,6 @@ export function FeedPanel({ thoughts, muted, thinking, onToggleMute }: {
           </div>
         ))}
         {thinking && <div className="text-uni-muted"><span className="text-uni-green">unia » </span>typing…</div>}
-        <div ref={end} />
       </div>
     </div>
   );
