@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useReducer, useRef } from "react";
 
-export const CHAIN = { name: "Robinhood Chain", id: 4663, symbol: "ETH" };
+export const CHAIN = { name: "Uniswap", id: 1, symbol: "ETH" };
 
 export type LogTag = "INFO" | "CORE" | "NET" | "MOD" | "CHAIN" | "USER" | "SYS";
 export type Log = { id: number; t: string; tag: LogTag; text: string };
@@ -11,7 +11,7 @@ export type MenuItem = { n: number; label: string; status: string; on: boolean }
 export const MENU: MenuItem[] = [
   { n: 1, label: "System Status", status: "online", on: true },
   { n: 2, label: "AI Core", status: "active", on: true },
-  { n: 3, label: "Robinhood Chain", status: "connected", on: true },
+  { n: 3, label: "Uniswap", status: "connected", on: true },
   { n: 4, label: "Modules", status: "12 loaded", on: true },
   { n: 5, label: "Explorer", status: "ready", on: true },
   { n: 6, label: "Developers", status: "online", on: true },
@@ -33,7 +33,7 @@ const BOOT: [LogTag, string][] = [
   ["SYS", "ready for command"],
 ];
 
-const TOKENS = ["ETH", "USDC", "PONS", "STONK", "WBTC", "DEGEN", "HOOD"];
+const TOKENS = ["ETH", "USDC", "UNI", "PEPE", "WBTC", "DEGEN", "WETH"];
 function liveLog(): [LogTag, string] {
   const r = Math.random();
   if (r < 0.34) return ["CHAIN", `block #${(21_400_000 + Math.floor(Math.random() * 9000)).toLocaleString()} sealed · ${2 + Math.floor(Math.random() * 180)} txns`];
@@ -52,13 +52,13 @@ function respond(cmd: string): [LogTag, string][] {
     case "": return [];
     case "help": return [["SYS", "commands: status · network · block · gas · modules · peers · about · whoami · clear"]];
     case "status": return [["INFO", "all systems operational · uptime nominal · agent online"]];
-    case "network": case "net": return [["NET", `${CHAIN.name} · chainId ${CHAIN.id} · connected · L2 (Arbitrum stack)`]];
+    case "network": case "net": return [["NET", `${CHAIN.name} · chainId ${CHAIN.id} · connected · Ethereum mainnet`]];
     case "block": return [["CHAIN", `head block #${(21_400_000 + Math.floor(Math.random() * 9000)).toLocaleString()} · finalized`]];
     case "gas": return [["NET", `base fee ${(0.001 + Math.random() * 0.02).toFixed(4)} gwei on ${CHAIN.name}`]];
     case "modules": case "mod": return [["MOD", "indexer · router · oracle · watcher · roaster · x12 online"]];
-    case "peers": return [["NET", `${20 + Math.floor(Math.random() * 40)} peers connected across the Robinhood network`]];
-    case "about": return [["INFO", "UNIA — the first agent on Uniswap, living on the Robinhood network."]];
-    case "whoami": return [["USER", `visitor@robinhood · guest access · welcome, ${a[0] || "degen"}`]];
+    case "peers": return [["NET", `${20 + Math.floor(Math.random() * 40)} peers connected across the Uniswap network`]];
+    case "about": return [["INFO", "UNIA — the first agent on Uniswap."]];
+    case "whoami": return [["USER", `visitor@uniswap · guest access · welcome, ${a[0] || "degen"}`]];
     case "clear": return [["__clear__" as LogTag, ""]];
     case "gm": return [["USER", "gm. the network never sleeps and neither do i."]];
     default: return [["SYS", `command not found: ${base} · type 'help'`]];

@@ -1,8 +1,8 @@
 import { defineChain } from "viem";
-import { robinhoodChain as cfg } from "./config";
+import { ethereumChain as cfg } from "./config";
 
-/** viem chain definition for Robinhood Chain (chainId 4663). */
-export const robinhood = defineChain({
+/** viem chain definition for Ethereum mainnet (chainId 1) — Uniswap's home chain. */
+export const mainnet = defineChain({
   id: cfg.id,
   name: cfg.name,
   nativeCurrency: cfg.nativeCurrency,
@@ -11,6 +11,6 @@ export const robinhood = defineChain({
     public: { http: [cfg.rpcUrl] },
   },
   blockExplorers: {
-    default: { name: "Blockscout", url: cfg.explorerUrl },
+    default: { name: "Etherscan", url: cfg.explorerUrl },
   },
 });

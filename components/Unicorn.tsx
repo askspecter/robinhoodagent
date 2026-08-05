@@ -45,7 +45,7 @@ export function Unicorn() {
         aria-label="UNIA unicorn"
         className="font-mono text-uni-green select-none"
         style={{
-          fontSize: "clamp(4px, 1.15vw, 9px)",
+          fontSize: "clamp(5px, 1.7vw, 9px)",
           lineHeight: 1.0,
           letterSpacing: "0.06em",
           margin: 0,

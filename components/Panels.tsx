@@ -4,12 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { MENU, type Log, type Metrics } from "@/lib/unia/terminal";
 
 /* ------------------------------- Logo -------------------------------- */
-const UNIA = String.raw`██╗   ██╗███╗   ██╗██╗ █████╗
-██║   ██║████╗  ██║██║██╔══██╗
-██║   ██║██╔██╗ ██║██║███████║
-██║   ██║██║╚██╗██║██║██╔══██║
-╚██████╔╝██║ ╚████║██║██║  ██║
- ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝`;
+// letters spaced apart (3-col gaps) so the wordmark reads loosely, not cramped
+const UNIA = String.raw`██╗   ██╗   ███╗   ██╗   ██╗    █████╗
+██║   ██║   ████╗  ██║   ██║   ██╔══██╗
+██║   ██║   ██╔██╗ ██║   ██║   ███████║
+██║   ██║   ██║╚██╗██║   ██║   ██╔══██║
+╚██████╔╝   ██║ ╚████║   ██║   ██║  ██║
+ ╚═════╝    ╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝`;
 
 export function Logo() {
   return (
@@ -18,7 +19,7 @@ export function Logo() {
         aria-label="UNIA"
         className="font-mono text-uni-green leading-none select-none overflow-x-auto no-scrollbar"
         style={{
-          fontSize: "clamp(11px, 3.2vw, 26px)",
+          fontSize: "clamp(8px, 2.5vw, 22px)",
           lineHeight: 1.0,
           margin: 0,
         }}
@@ -26,8 +27,8 @@ export function Logo() {
         {UNIA}
       </pre>
       <div className="mt-4 text-sm sm:text-base text-uni-text">
-        <span className="text-uni-green">&gt;</span> The autonomous terminal for the{" "}
-        <span className="text-uni-green">Robinhood</span> network.
+        <span className="text-uni-green">&gt;</span> The first autonomous agent on{" "}
+        <span className="text-uni-green">Uniswap</span>.
       </div>
     </div>
   );
@@ -70,8 +71,8 @@ export function SystemStatus({ metrics, uptime }: { metrics: Metrics; uptime: st
     ["Uptime", uptime],
     ["Version", "v1.0.0"],
     ["Environment", "production"],
-    ["Chain", "Robinhood (#4663)"],
-    ["Node", "robinhood-main"],
+    ["Chain", "Uniswap · Ethereum"],
+    ["Node", "uniswap-main"],
     ["Load", <Bar key="l" pct={metrics.load} />],
     ["Memory", <Bar key="m" pct={metrics.mem} />],
     ["CPU", <Bar key="c" pct={metrics.cpu} />],
@@ -81,10 +82,10 @@ export function SystemStatus({ metrics, uptime }: { metrics: Metrics; uptime: st
       <div className="px-4 py-2.5 border-b border-uni-line text-sm text-uni-green tracking-wide">▚ SYSTEM STATUS</div>
       <div className="p-4 space-y-2 text-sm">
         {rows.map(([k, v]) => (
-          <div key={k} className="flex gap-3">
-            <span className="text-uni-muted w-28 shrink-0">{k}</span>
-            <span className="text-uni-muted">:</span>
-            <span className="text-uni-text">{v}</span>
+          <div key={k} className="flex gap-2 sm:gap-3">
+            <span className="text-uni-muted w-24 sm:w-28 shrink-0">{k}</span>
+            <span className="text-uni-muted shrink-0">:</span>
+            <span className="text-uni-text min-w-0">{v}</span>
           </div>
         ))}
         <div className="text-uni-green pt-1">&gt; All systems operational.</div>
@@ -123,21 +124,21 @@ export function CommandBar({ onRun }: { onRun: (cmd: string) => void }) {
   const inp = useRef<HTMLInputElement>(null);
   const submit = () => { if (v.trim()) { onRun(v.trim()); setV(""); } };
   return (
-    <div className="flex items-stretch gap-3 mt-5">
-      <div className="box flex-1 flex items-center gap-2 px-4 py-3 text-sm cursor-text" onClick={() => inp.current?.focus()}>
-        <span className="text-uni-green">visitor@robinhood:~$</span>
+    <div className="flex items-stretch gap-2 sm:gap-3 mt-5">
+      <div className="box flex-1 min-w-0 flex items-center gap-2 px-3 sm:px-4 py-3 text-sm cursor-text" onClick={() => inp.current?.focus()}>
+        <span className="text-uni-green shrink-0">visitor@uniswap:~$</span>
         <input
           ref={inp}
           value={v}
           onChange={(e) => setV(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && submit()}
           spellCheck={false} autoCapitalize="off" autoComplete="off"
-          className="flex-1 bg-transparent outline-none text-uni-text caret-[#7ecb3c]"
+          className="flex-1 min-w-0 bg-transparent outline-none text-uni-text caret-[#7ecb3c]"
           placeholder="type a command · try 'help'"
           aria-label="command"
         />
       </div>
-      <button className="btn btn-solid px-6 text-lg" onClick={submit} aria-label="run">&gt;_</button>
+      <button className="btn btn-solid shrink-0 px-4 sm:px-6 text-lg" onClick={submit} aria-label="run">&gt;_</button>
     </div>
   );
 }

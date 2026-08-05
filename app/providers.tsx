@@ -11,7 +11,7 @@ import {
   privyWagmiConfig,
   fallbackWagmiConfig,
 } from "@/lib/wagmi";
-import { robinhood } from "@/lib/chain";
+import { mainnet } from "@/lib/chain";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
@@ -40,8 +40,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
         embeddedWallets: {
           ethereum: { createOnLogin: "users-without-wallets" },
         },
-        defaultChain: robinhood,
-        supportedChains: [robinhood],
+        defaultChain: mainnet,
+        supportedChains: [mainnet],
       }}
     >
       <QueryClientProvider client={queryClient}>

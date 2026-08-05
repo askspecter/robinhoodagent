@@ -15,7 +15,7 @@ export const site = {
   company: "Zero Labs", // TODO: your studio / company (footer)
   tagline: "A token, launched from the terminal — on Pons.",
   description:
-    "An on-chain experiment on Robinhood Chain. No brokers, no middlemen — just a fixed-supply token launched straight from the command line via Pons.",
+    "An on-chain experiment on Ethereum. No brokers, no middlemen — just a fixed-supply token launched straight from the command line via Pons.",
 
   // --- Token (Pons) ------------------------------------------------------
   token: {
@@ -35,19 +35,19 @@ export const site = {
 };
 
 // ---------------------------------------------------------------------------
-//  Robinhood Chain (mainnet) — https://chainlist.org/chain/4663
+//  Ethereum mainnet (chainId 1) — home of Uniswap
 // ---------------------------------------------------------------------------
-export const robinhoodChain = {
-  id: 4663,
-  name: "Robinhood Chain",
+export const ethereumChain = {
+  id: 1,
+  name: "Ethereum",
   nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
-  rpcUrl: "https://rpc.mainnet.chain.robinhood.com",
-  explorerUrl: "https://robinhoodchain.blockscout.com",
+  rpcUrl: "https://eth.llamarpc.com",
+  explorerUrl: "https://etherscan.io",
 };
 
 export const explorerAddress = (addr: string) =>
-  `${robinhoodChain.explorerUrl}/address/${addr}`;
+  `${ethereumChain.explorerUrl}/address/${addr}`;
 export const explorerToken = (addr: string) =>
-  `${robinhoodChain.explorerUrl}/token/${addr}`;
+  `${ethereumChain.explorerUrl}/token/${addr}`;
 
 export const isPlaceholderAddr = (addr: string) => addr.startsWith("0x0000000");

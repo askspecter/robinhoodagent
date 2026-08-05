@@ -4,8 +4,8 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "UNIA — terminal for the Robinhood network",
-  description: "UNIA, the autonomous agent terminal for the Robinhood Chain network.",
+  title: "UNIA — the first agent on Uniswap",
+  description: "UNIA, the first autonomous agent on Uniswap.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
