@@ -12,6 +12,7 @@ import {
   fallbackWagmiConfig,
 } from "@/lib/wagmi";
 import { robinhood } from "@/lib/chain";
+import { InjectedConnectProvider, PrivyConnectProvider } from "@/lib/wallet/connect";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
@@ -22,7 +23,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
     return (
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       <WagmiProvider config={fallbackWagmiConfig as any}>
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <InjectedConnectProvider>{children}</InjectedConnectProvider>
+        </QueryClientProvider>
       </WagmiProvider>
     );
   }
@@ -46,7 +49,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
     >
       <QueryClientProvider client={queryClient}>
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        <PrivyWagmiProvider config={privyWagmiConfig as any}>{children}</PrivyWagmiProvider>
+        <PrivyWagmiProvider config={privyWagmiConfig as any}>
+          <PrivyConnectProvider>{children}</PrivyConnectProvider>
+        </PrivyWagmiProvider>
       </QueryClientProvider>
     </PrivyProvider>
   );

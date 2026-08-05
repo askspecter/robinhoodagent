@@ -1,9 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useReducer, useRef } from "react";
-import { useAccount, useConnect, useDisconnect, useBalance, useReadContract, useWriteContract } from "wagmi";
+import { useAccount, useBalance, useReadContract, useWriteContract } from "wagmi";
 import { formatEther, parseEther } from "viem";
 import { UNIA, robinhoodChain, isPlaceholderAddr } from "@/lib/config";
+import { privyEnabled } from "@/lib/wagmi";
+import { useWalletConnect } from "@/lib/wallet/connect";
 import { UNIA_TOKEN_ABI, UNIA_PASS_ABI } from "./abi";
 
 /**
@@ -37,10 +39,9 @@ export function useUniaPass() {
   const [, force] = useReducer((x) => x + 1, 0);
   const demo = useRef<Demo>(freshDemo());
 
-  // ---- real wallet (wagmi) ----
+  // ---- real wallet (wagmi + connect bridge: Privy or injected) ----
   const { address: waddr, isConnected } = useAccount();
-  const { connectAsync, connectors } = useConnect();
-  const { disconnect: wDisconnect } = useDisconnect();
+  const wc = useWalletConnect();
   const realConnected = isConnected && !!waddr;
 
   const ethQ = useBalance({ address: waddr, chainId: robinhoodChain.id, query: { enabled: realConnected } });
@@ -82,23 +83,28 @@ export function useUniaPass() {
   const isHolder = unia >= FREE_HOLD;
 
   // ---- actions ----
-  const connect = useCallback(async () => {
-    const hasWallet = typeof window !== "undefined" && !!(window as unknown as { ethereum?: unknown }).ethereum;
-    if (hasWallet && connectors.length) {
-      const injected = connectors.find((c) => c.type === "injected") ?? connectors[0];
-      try { await connectAsync({ connector: injected }); return; } catch { /* fall through to sim */ }
-    }
+  const simConnect = () => {
     const addr = "0x" + hex(40);
     demo.current = { ...freshDemo(), address: addr, unia: simBal(addr) };
     force();
-  }, [connectAsync, connectors]);
+  };
+
+  const connect = useCallback(async () => {
+    const hasWallet = typeof window !== "undefined" && !!(window as unknown as { ethereum?: unknown }).ethereum;
+    // Privy handles email/social too, so use the bridge whenever Privy is on
+    // or a browser wallet exists; otherwise fall back to a sim wallet (demo).
+    if ((privyEnabled || hasWallet) && wc?.connect) {
+      try { await wc.connect(); return; } catch { /* fall through to sim */ }
+    }
+    simConnect();
+  }, [wc]);
 
   const disconnect = useCallback(() => {
-    if (realConnected) wDisconnect();
+    if (realConnected) wc?.disconnect();
     demo.current = freshDemo();
     txRef.current = null;
     force();
-  }, [realConnected, wDisconnect]);
+  }, [realConnected, wc]);
 
   const airdrop = useCallback(() => {
     if (useReal || !demo.current.address) return; // paper-only faucet
