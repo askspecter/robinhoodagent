@@ -1,7 +1,7 @@
 import { http, createConfig } from "wagmi";
 import { injected } from "wagmi/connectors";
 import { createConfig as createPrivyConfig } from "@privy-io/wagmi";
-import { mainnet } from "./chain";
+import { robinhood } from "./chain";
 
 /** True kalau Privy dikonfigurasi (env var di-set saat build). */
 export const privyAppId = process.env.NEXT_PUBLIC_PRIVY_APP_ID || "";
@@ -12,9 +12,9 @@ export const privyEnabled = privyAppId.length > 0;
  * jadi tidak perlu daftar `connectors` di sini.
  */
 export const privyWagmiConfig = createPrivyConfig({
-  chains: [mainnet],
+  chains: [robinhood],
   transports: {
-    [mainnet.id]: http(mainnet.rpcUrls.default.http[0]),
+    [robinhood.id]: http(robinhood.rpcUrls.default.http[0]),
   },
 });
 
@@ -24,10 +24,10 @@ export const privyWagmiConfig = createPrivyConfig({
  * sebelum NEXT_PUBLIC_PRIVY_APP_ID diisi.
  */
 export const fallbackWagmiConfig = createConfig({
-  chains: [mainnet],
+  chains: [robinhood],
   connectors: [injected({ shimDisconnect: true })],
   transports: {
-    [mainnet.id]: http(mainnet.rpcUrls.default.http[0]),
+    [robinhood.id]: http(robinhood.rpcUrls.default.http[0]),
   },
   ssr: true,
 });

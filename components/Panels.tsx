@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { MENU } from "@/lib/unia/terminal";
+import { MENU, type MenuItem, type SectionKey } from "@/lib/unia/terminal";
 
 /* ------------------------------- Logo -------------------------------- */
 // letters with a single-column gap — separated, but not spread too far apart
@@ -35,16 +35,16 @@ export function Logo() {
 }
 
 /* ------------------------------- Menu -------------------------------- */
-export function Menu({ onSelect, active }: { onSelect: (n: number) => void; active: number }) {
+export function Menu({ onSelect, active, items = MENU }: { onSelect: (k: SectionKey) => void; active: SectionKey; items?: MenuItem[] }) {
   return (
     <div className="box p-2 mt-5">
-      {MENU.map((m) => (
+      {items.map((m) => (
         <button
           key={m.n}
-          onClick={() => onSelect(m.n)}
-          className={`menu-row w-full flex items-center gap-3 px-3 py-2.5 text-left text-sm ${active === m.n ? "active" : ""}`}
+          onClick={() => onSelect(m.key)}
+          className={`menu-row w-full flex items-center gap-3 px-3 py-2.5 text-left text-sm ${active === m.key ? "active" : ""}`}
         >
-          <span className="text-uni-green w-5">{active === m.n ? ">" : " "}</span>
+          <span className="text-uni-green w-5">{active === m.key ? ">" : " "}</span>
           <span className="text-uni-muted">[{m.n}]</span>
           <span className="text-uni-text">{m.label}</span>
           <span className="ml-auto text-uni-muted">{m.status}</span>
@@ -63,7 +63,7 @@ export function CommandBar({ onRun }: { onRun: (cmd: string) => void }) {
   return (
     <div className="flex items-stretch gap-2 sm:gap-3 mt-5">
       <div className="box flex-1 min-w-0 flex items-center gap-2 px-3 sm:px-4 py-3 text-sm cursor-text" onClick={() => inp.current?.focus()}>
-        <span className="text-uni-green shrink-0">visitor@uniswap:~$</span>
+        <span className="text-uni-green shrink-0">visitor@robinhood:~$</span>
         <input
           ref={inp}
           value={v}
