@@ -2,7 +2,7 @@
 
 import type { PassState } from "@/lib/unia/useUniaPass";
 import type { SectionKey } from "@/lib/unia/terminal";
-import { robinhoodChain, UNIA, explorerTx } from "@/lib/config";
+import { robinhoodChain, UNIA, SOCIALS, explorerTx } from "@/lib/config";
 
 /* ------------------------------ helpers ------------------------------ */
 const short = (a: string) => (a ? `${a.slice(0, 6)}…${a.slice(-4)}` : "");
@@ -79,7 +79,7 @@ export function NftSection({ pass, goto }: { pass: PassState; goto: (k: SectionK
       <Box
         mark="◆"
         title="MINT UNIA PASS"
-        right={<span className="text-[11px] text-uni-muted">{UNIA.pass.supply.toLocaleString()} supply</span>}
+        right={<span className={`text-[11px] ${pass.onchain ? "text-uni-green" : "text-uni-muted"}`}>{pass.onchain ? "on-chain" : "paper"}</span>}
       >
         <div className="space-y-3">
           <p className="text-uni-muted leading-snug">
@@ -103,14 +103,17 @@ export function NftSection({ pass, goto }: { pass: PassState; goto: (k: SectionK
           ) : (
             <div className="space-y-3">
               <div className="space-y-1">
-                <Row k="wallet" v={short(pass.address)} />
+                <Row k="wallet" v={<span title={pass.address}>{short(pass.address)}{pass.isReal ? "" : " (sim)"}</span>} />
+                {pass.isReal && pass.ethBalance != null && (
+                  <Row k="ETH" v={`${Number(pass.ethBalance).toFixed(4)} ETH`} />
+                )}
                 <Row k="$UNIA held" v={<span className={free ? "text-uni-green" : ""}>{unia(pass.unia)}</span>} />
                 <Row k="your price" v={free ? <span className="text-uni-green">FREE (holder)</span> : "0.005 ETH"} />
               </div>
               <button onClick={pass.mint} disabled={pass.minting} className="btn btn-solid w-full py-3 disabled:opacity-60">
                 {pass.minting ? "minting…" : free ? "mint free" : "mint · 0.005 ETH"}
               </button>
-              {!free && (
+              {!free && pass.canAirdrop && (
                 <button onClick={pass.airdrop} className="btn w-full py-2 text-xs">sim: airdrop 5M $UNIA (test free mint)</button>
               )}
             </div>
@@ -184,6 +187,11 @@ export function DocsSection() {
         <p>The native reward token. Hold <span className="text-uni-text">5,000,000 $UNIA</span> to mint the UNIA PASS for free. Rewards stream to Pass holders and can be claimed on-chain.</p>
         <H># UNIA PASS (NFT)</H>
         <p>Mint is FREE for 5M+ $UNIA holders, otherwise <span className="text-uni-text">0.005 ETH</span> on Robinhood Chain. Supply {UNIA.pass.supply.toLocaleString()}. Holding a Pass streams <span className="text-uni-text">{UNIA.pass.rewardPerDay} $UNIA/day</span> and unlocks premium — PRO signals, priority feed, and the voice module.</p>
+        <H># socials</H>
+        <p className="flex flex-wrap gap-4">
+          <a href={SOCIALS.x} target="_blank" rel="noreferrer" className="text-uni-text hover:text-uni-green">X · @uniadotsh ↗</a>
+          <a href={SOCIALS.telegram} target="_blank" rel="noreferrer" className="text-uni-text hover:text-uni-green">Telegram · t.me/uniash ↗</a>
+        </p>
         <H># disclaimer</H>
         <p>Paper-trading art project. Not financial advice. Not affiliated with Uniswap Labs or Robinhood Markets, Inc.</p>
       </div>

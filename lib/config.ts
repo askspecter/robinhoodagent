@@ -37,6 +37,14 @@ export const UNIA = {
   },
 };
 
+// ---------------------------------------------------------------------------
+//  Socials
+// ---------------------------------------------------------------------------
+export const SOCIALS = {
+  x: "https://x.com/uniadotsh",
+  telegram: "https://t.me/uniash",
+};
+
 export const explorerAddress = (addr: string) =>
   `${robinhoodChain.explorerUrl}/address/${addr}`;
 export const explorerTx = (hash: string) =>

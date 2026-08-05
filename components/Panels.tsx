@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { MENU, type MenuItem, type SectionKey } from "@/lib/unia/terminal";
+import { SOCIALS } from "@/lib/config";
 
 /* ------------------------------- Logo -------------------------------- */
 // letters with a single-column gap — separated, but not spread too far apart
@@ -29,6 +30,11 @@ export function Logo() {
       <div className="mt-4 text-sm sm:text-base text-uni-text">
         <span className="text-uni-green">&gt;</span> The first autonomous agent on{" "}
         <span className="text-uni-green">Uniswap</span>.
+      </div>
+      <div className="mt-3 flex items-center gap-4 text-xs">
+        <a href={SOCIALS.x} target="_blank" rel="noreferrer" className="text-uni-muted hover:text-uni-green transition-colors">X ↗</a>
+        <span className="text-uni-muted">·</span>
+        <a href={SOCIALS.telegram} target="_blank" rel="noreferrer" className="text-uni-muted hover:text-uni-green transition-colors">Telegram ↗</a>
       </div>
     </div>
   );

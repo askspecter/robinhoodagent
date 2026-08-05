@@ -158,7 +158,7 @@ export function useUnia() {
     switch (base) {
       case "help":
         push("agent: bag · market · holdings · dare · roast <addr> · mute · unmute · gm · clear", "sys");
-        push("app: connect · mint · claim · nft · rewards · docs · network · devs", "sys");
+        push("app: connect · mint · claim · nft · rewards · docs · network · devs · x · telegram", "sys");
         break;
       case "bag": case "pnl":
         push(`equity $${usd(nw)} · cash $${usd(s.cash)} · pnl ${pnl >= 0 ? "+" : ""}${pnl.toFixed(2)}% · mood ${MOOD_LABEL[s.mood]}`, "sys");

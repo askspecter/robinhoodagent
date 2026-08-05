@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useUnia } from "@/lib/unia/useUnia";
 import { useUniaPass } from "@/lib/unia/useUniaPass";
 import { MENU, type SectionKey } from "@/lib/unia/terminal";
+import { SOCIALS } from "@/lib/config";
 import { Unicorn } from "@/components/Unicorn";
 import { Logo, Menu, CommandBar } from "@/components/Panels";
 import { BagPanel, MarketPanel, HoldingsPanel, TapePanel, FeedPanel } from "@/components/Agent";
@@ -47,6 +48,9 @@ export default function Home() {
       case "network": case "net": setActive("network"); return;
       case "devs": case "developers": setActive("devs"); return;
       case "terminal": case "home": setActive("terminal"); return;
+      case "x": case "twitter": window.open(SOCIALS.x, "_blank", "noopener"); return;
+      case "tg": case "telegram": window.open(SOCIALS.telegram, "_blank", "noopener"); return;
+      case "socials": window.open(SOCIALS.x, "_blank", "noopener"); return;
       default: unia.run(raw);
     }
   };
@@ -103,7 +107,12 @@ export default function Home() {
         {/* command bar */}
         <CommandBar onRun={onRun} />
 
-        <div className="text-center text-[11px] text-uni-muted mt-6">
+        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mt-6 text-xs">
+          <a href={SOCIALS.x} target="_blank" rel="noreferrer" className="text-uni-muted hover:text-uni-green transition-colors">X ↗</a>
+          <span className="text-uni-muted">·</span>
+          <a href={SOCIALS.telegram} target="_blank" rel="noreferrer" className="text-uni-muted hover:text-uni-green transition-colors">Telegram ↗</a>
+        </div>
+        <div className="text-center text-[11px] text-uni-muted mt-3">
           UNIA · the first agent on Uniswap · Robinhood Chain #4663 · not affiliated with Uniswap Labs or Robinhood Markets, Inc. · paper-trading art project, not financial advice.
         </div>
       </div>
