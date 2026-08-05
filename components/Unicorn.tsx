@@ -39,9 +39,8 @@ const ART = String.raw`
 `;
 
 export function Unicorn() {
-  const c = "#4dff3a";
   return (
-    <div className="relative w-full grid place-items-center" style={{ filter: `drop-shadow(0 0 12px ${c}33)` }}>
+    <div className="relative w-full grid place-items-center">
       <pre
         aria-label="UNIA unicorn"
         className="font-mono text-uni-green select-none"
@@ -49,7 +48,6 @@ export function Unicorn() {
           fontSize: "clamp(4px, 1.15vw, 9px)",
           lineHeight: 1.0,
           letterSpacing: "0.06em",
-          textShadow: `0 0 6px ${c}66`,
           margin: 0,
         }}
       >

@@ -16,7 +16,7 @@ export default function Home() {
         <div className="flex items-center justify-between pb-4 mb-2 border-b border-uni-line">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <span className="dot bg-uni-green" style={{ boxShadow: "0 0 8px rgba(77,255,58,0.8)" }} />
+              <span className="dot bg-uni-green" />
               <span className="dot bg-uni-green opacity-70" />
               <span className="dot bg-uni-green opacity-40" />
             </div>

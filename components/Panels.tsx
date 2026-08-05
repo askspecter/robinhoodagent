@@ -21,14 +21,13 @@ export function Logo() {
           fontSize: "clamp(11px, 3.2vw, 26px)",
           lineHeight: 1.0,
           margin: 0,
-          textShadow: "0 0 10px rgba(77,255,58,0.55), 0 0 22px rgba(77,255,58,0.28)",
         }}
       >
         {UNIA}
       </pre>
       <div className="mt-4 text-sm sm:text-base text-uni-text">
         <span className="text-uni-green">&gt;</span> The autonomous terminal for the{" "}
-        <span className="text-uni-green glow">Robinhood</span> network.
+        <span className="text-uni-green">Robinhood</span> network.
       </div>
     </div>
   );
@@ -48,7 +47,7 @@ export function Menu({ onSelect, active }: { onSelect: (n: number) => void; acti
           <span className="text-uni-muted">[{m.n}]</span>
           <span className="text-uni-text">{m.label}</span>
           <span className="ml-auto text-uni-muted">{m.status}</span>
-          <span className={`dot ${m.on ? "bg-uni-green" : "border border-uni-muted"}`} style={m.on ? { boxShadow: "0 0 8px rgba(77,255,58,0.8)" } : {}} />
+          <span className={`dot ${m.on ? "bg-uni-green" : "border border-uni-muted"}`} />
         </button>
       ))}
     </div>
@@ -107,7 +106,7 @@ export function Logs({ logs }: { logs: Log[] }) {
     <div className="box flex flex-col">
       <div className="px-4 py-2.5 border-b border-uni-line flex items-center justify-between text-sm">
         <span className="text-uni-green tracking-wide">▤ UNIA LOGS</span>
-        <span className="flex items-center gap-1.5 text-[11px] text-uni-green"><span className="dot bg-uni-green animate-[blink_1.4s_step-end_infinite]" style={{ boxShadow: "0 0 8px rgba(77,255,58,0.8)" }} /> LIVE</span>
+        <span className="flex items-center gap-1.5 text-[11px] text-uni-green"><span className="dot bg-uni-green animate-[blink_1.4s_step-end_infinite]" /> LIVE</span>
       </div>
       <div className="p-4 space-y-1 text-sm overflow-y-auto no-scrollbar h-[240px]">
         {logs.map((l) => (
