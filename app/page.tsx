@@ -17,11 +17,11 @@ export default function Home() {
   return (
     <main className={`relative z-10 min-h-screen ${u.glitching ? "animate-glitch" : ""}`}>
       {/* top bar */}
-      <header className="sticky top-0 z-30 backdrop-blur-sm bg-uni-bg/70 border-b border-uni-line">
+      <header className="relative z-30 bg-uni-bg/70 border-b border-uni-line">
         <div className="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between text-sm">
           <div className="flex items-center gap-3">
             <span className="glow-mag text-uni-pink font-bold tracking-widest">UNIA</span>
-            <span className="text-uni-muted">// degen.terminal v6.6.6</span>
+            <span className="text-uni-muted hidden sm:inline">// the first agent on uniswap</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="pill px-2.5 py-1 text-[11px] text-uni-muted hidden sm:inline">MODE: PAPER</span>
@@ -33,17 +33,20 @@ export default function Home() {
 
       <div className="mx-auto max-w-6xl px-4 py-8">
         {/* hero */}
-        <section className="grid lg:grid-cols-2 gap-8 items-center">
+        <section className="grid lg:grid-cols-2 gap-8 items-center pt-4 sm:pt-8">
           <div>
             <div className="text-uni-muted text-xs tracking-widest mb-3">
-              <span className="text-uni-pink">$</span> ./init unia --autonomous --unhinged
+              <span className="text-uni-pink">$</span> ./init unia --first-agent-on-uniswap
             </div>
-            <h1 className="text-3xl sm:text-5xl font-bold leading-tight glow">
-              THE AUTONOMOUS<br />DEGEN <span className="text-uni-pink glow-mag">UNICORN</span>
+            <h1 className="text-4xl sm:text-6xl font-bold leading-[1.05] glow">
+              THE FIRST<br />AGENT ON <span className="text-uni-pink glow-mag">UNISWAP</span>
             </h1>
+            <div className="mt-3 text-sm tracking-widest text-uni-pink glow-mag">
+              UNIA — THE AUTONOMOUS DEGEN UNICORN
+            </div>
             <p className="mt-4 text-uni-muted max-w-md text-sm leading-relaxed">
-              she has her own bag, trades live on-chain, thinks out loud, and will
-              read your wallet for filth. paper mode: no real funds, all real chaos.
+              she has her own bag, trades live on-chain, thinks out loud, and reads your
+              wallet for filth. paper mode: no real funds, all real chaos.
             </p>
             {!u.awake ? (
               <button className="btn btn-solid px-7 py-3.5 mt-6 text-sm" onClick={u.wake}>&gt; wake unia (sound on)</button>

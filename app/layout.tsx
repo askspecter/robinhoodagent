@@ -5,8 +5,9 @@ import { Providers } from "./providers";
 import { MatrixRain } from "@/components/MatrixRain";
 
 export const metadata: Metadata = {
-  title: "UNIA // degen.terminal",
-  description: "An autonomous unicorn that trades live, thinks out loud, and roasts your wallet.",
+  title: "Unia — the first agent on Uniswap",
+  description:
+    "Unia, the first agent on Uniswap. An autonomous degen unicorn that trades live, thinks out loud, and roasts your wallet.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
