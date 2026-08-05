@@ -1,0 +1,136 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { MENU, type Log, type Metrics } from "@/lib/unia/terminal";
+
+/* ------------------------------- Logo -------------------------------- */
+export function Logo() {
+  return (
+    <div>
+      <div
+        className="font-pixel text-uni-green leading-none"
+        style={{ fontSize: "clamp(56px,11vw,120px)", textShadow: "4px 4px 0 rgba(77,255,58,0.25), 0 0 18px rgba(77,255,58,0.5)" }}
+      >
+        UNIA
+      </div>
+      <div className="mt-3 text-sm sm:text-base text-uni-text">
+        <span className="text-uni-green">&gt;</span> The autonomous terminal for the{" "}
+        <span className="text-uni-green glow">Robinhood</span> network.
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------- Menu -------------------------------- */
+export function Menu({ onSelect, active }: { onSelect: (n: number) => void; active: number }) {
+  return (
+    <div className="box p-2 mt-5">
+      {MENU.map((m) => (
+        <button
+          key={m.n}
+          onClick={() => onSelect(m.n)}
+          className={`menu-row w-full flex items-center gap-3 px-3 py-2.5 text-left text-sm ${active === m.n ? "active" : ""}`}
+        >
+          <span className="text-uni-green w-5">{active === m.n ? ">" : " "}</span>
+          <span className="text-uni-muted">[{m.n}]</span>
+          <span className="text-uni-text">{m.label}</span>
+          <span className="ml-auto text-uni-muted">{m.status}</span>
+          <span className={`dot ${m.on ? "bg-uni-green" : "border border-uni-muted"}`} style={m.on ? { boxShadow: "0 0 8px rgba(77,255,58,0.8)" } : {}} />
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* --------------------------- System Status --------------------------- */
+function Bar({ pct }: { pct: number }) {
+  const total = 12;
+  const filled = Math.round((pct / 100) * total);
+  return (
+    <span className="bar text-uni-green">
+      [<span className="text-uni-green">{"■".repeat(filled)}</span><span className="text-uni-muted">{"□".repeat(total - filled)}</span>] {Math.round(pct)}%
+    </span>
+  );
+}
+
+export function SystemStatus({ metrics, uptime }: { metrics: Metrics; uptime: string }) {
+  const rows: [string, React.ReactNode][] = [
+    ["Uptime", uptime],
+    ["Version", "v1.0.0"],
+    ["Environment", "production"],
+    ["Chain", "Robinhood (#4663)"],
+    ["Node", "robinhood-main"],
+    ["Load", <Bar key="l" pct={metrics.load} />],
+    ["Memory", <Bar key="m" pct={metrics.mem} />],
+    ["CPU", <Bar key="c" pct={metrics.cpu} />],
+  ];
+  return (
+    <div className="box">
+      <div className="px-4 py-2.5 border-b border-uni-line text-sm text-uni-green tracking-wide">▚ SYSTEM STATUS</div>
+      <div className="p-4 space-y-2 text-sm">
+        {rows.map(([k, v]) => (
+          <div key={k} className="flex gap-3">
+            <span className="text-uni-muted w-28 shrink-0">{k}</span>
+            <span className="text-uni-muted">:</span>
+            <span className="text-uni-text">{v}</span>
+          </div>
+        ))}
+        <div className="text-uni-green pt-1">&gt; All systems operational.</div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------- Logs -------------------------------- */
+const TAG_COLOR: Record<string, string> = {
+  INFO: "text-uni-text", CORE: "text-uni-green", NET: "text-uni-cyan",
+  MOD: "text-uni-green", CHAIN: "text-uni-green", USER: "text-uni-gold", SYS: "text-uni-muted",
+};
+
+export function Logs({ logs }: { logs: Log[] }) {
+  const end = useRef<HTMLDivElement>(null);
+  useEffect(() => { end.current?.scrollIntoView({ block: "end" }); }, [logs]);
+  return (
+    <div className="box flex flex-col">
+      <div className="px-4 py-2.5 border-b border-uni-line flex items-center justify-between text-sm">
+        <span className="text-uni-green tracking-wide">▤ UNIA LOGS</span>
+        <span className="flex items-center gap-1.5 text-[11px] text-uni-green"><span className="dot bg-uni-green animate-[blink_1.4s_step-end_infinite]" style={{ boxShadow: "0 0 8px rgba(77,255,58,0.8)" }} /> LIVE</span>
+      </div>
+      <div className="p-4 space-y-1 text-sm overflow-y-auto no-scrollbar h-[240px]">
+        {logs.map((l) => (
+          <div key={l.id} className="flex gap-2 whitespace-pre-wrap break-words">
+            <span className="text-uni-muted shrink-0">{l.t}</span>
+            <span className="text-uni-muted shrink-0">[{l.tag.padEnd(5)}]</span>
+            <span className={TAG_COLOR[l.tag] || "text-uni-text"}>{l.text}</span>
+          </div>
+        ))}
+        <div ref={end} />
+      </div>
+    </div>
+  );
+}
+
+/* ----------------------------- Command bar ---------------------------- */
+export function CommandBar({ onRun }: { onRun: (cmd: string) => void }) {
+  const [v, setV] = useState("");
+  const inp = useRef<HTMLInputElement>(null);
+  const submit = () => { if (v.trim()) { onRun(v.trim()); setV(""); } };
+  return (
+    <div className="flex items-stretch gap-3 mt-5">
+      <div className="box flex-1 flex items-center gap-2 px-4 py-3 text-sm cursor-text" onClick={() => inp.current?.focus()}>
+        <span className="text-uni-green">visitor@robinhood:~$</span>
+        <input
+          ref={inp}
+          value={v}
+          onChange={(e) => setV(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && submit()}
+          spellCheck={false} autoCapitalize="off" autoComplete="off"
+          className="flex-1 bg-transparent outline-none text-uni-text caret-[#4dff3a]"
+          placeholder="type a command · try 'help'"
+          aria-label="command"
+        />
+      </div>
+      <button className="btn btn-solid px-6 text-lg" onClick={submit} aria-label="run">&gt;_</button>
+    </div>
+  );
+}
