@@ -156,7 +156,7 @@ export function TapePanel({ trades }: { trades: Trade[] }) {
   return (
     <div className="box flex flex-col">
       <PanelHead mark="≋" title="TAPE" right={<span className="text-[11px] text-uni-muted">last {Math.min(trades.length, 20)}</span>} />
-      <div className="p-4 space-y-1.5 text-sm overflow-y-auto no-scrollbar h-[168px]">
+      <div className="p-4 space-y-1.5 text-sm overflow-y-auto overscroll-contain no-scrollbar h-[168px]">
         {trades.length === 0 ? (
           <div className="text-uni-muted">no trades yet · she is deciding.</div>
         ) : (
@@ -185,8 +185,14 @@ export function FeedPanel({ thoughts, muted, thinking, onToggleMute }: {
   thoughts: Thought[]; muted: boolean; thinking?: boolean; onToggleMute: () => void;
 }) {
   const box = useRef<HTMLDivElement>(null);
-  // keep the feed pinned to the bottom WITHOUT scrolling the whole page
-  useEffect(() => { const el = box.current; if (el) el.scrollTop = el.scrollHeight; }, [thoughts, thinking]);
+  // pin to the bottom INSIDE the feed only — never scroll the page, and don't
+  // fight the user if they've scrolled up to read.
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 60;
+    if (nearBottom) el.scrollTop = el.scrollHeight;
+  }, [thoughts, thinking]);
   return (
     <div className="box flex flex-col">
       <PanelHead
@@ -201,7 +207,7 @@ export function FeedPanel({ thoughts, muted, thinking, onToggleMute }: {
           </div>
         }
       />
-      <div ref={box} className="p-4 space-y-1 text-sm overflow-y-auto no-scrollbar h-[300px]">
+      <div ref={box} className="p-4 space-y-1 text-sm overflow-y-auto overscroll-contain no-scrollbar h-[300px]">
         {thoughts.length === 0 && <div className="text-uni-muted">booting the beast…</div>}
         {thoughts.map((t) => (
           <div key={t.id} className="whitespace-pre-wrap break-words leading-snug">

@@ -3,9 +3,24 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { Providers } from "./providers";
 
+const DESC = "The autonomous degen unicorn — the first agent on Uniswap, live on Robinhood Chain. $UNIA launching on pools.trade.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://unia.sh"),
   title: "UNIA — the first agent on Uniswap",
-  description: "UNIA, the first autonomous agent on Uniswap.",
+  description: DESC,
+  openGraph: {
+    title: "UNIA — the first agent on Uniswap",
+    description: DESC,
+    url: "https://unia.sh",
+    siteName: "UNIA",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "UNIA — the first agent on Uniswap",
+    description: DESC,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
