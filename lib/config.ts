@@ -41,9 +41,10 @@ export const UNIA = {
 //  Launch — $UNIA on pools.trade (Robinhood Chain)
 // ---------------------------------------------------------------------------
 export const LAUNCH = {
-  // ISO UTC. 2026-08-05T17:00:00Z = 2026-08-06 00:00 WIB (jam 12 malam).
+  // ISO UTC. 2026-08-05T16:00:00Z = 00:00 (UTC+8) / 23:00 WIB.
+  // (moved 1h earlier — our countdown was running 1h ahead of pools.trade)
   // Change this one line if the launch time moves.
-  at: "2026-08-05T17:00:00Z",
+  at: "2026-08-05T16:00:00Z",
   poolsUrl: "https://pools.trade",
 };
 
