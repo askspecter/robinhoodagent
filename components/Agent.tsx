@@ -169,10 +169,11 @@ export function TapePanel({ trades }: { trades: Trade[] }) {
 const TONE: Record<Tone, string> = {
   buy: "text-uni-green", pump: "text-uni-green", sell: "text-uni-text",
   dump: "text-uni-down", idle: "text-uni-muted", sys: "text-uni-muted", user: "text-uni-text",
+  unia: "text-uni-green",
 };
 
-export function FeedPanel({ thoughts, muted, onToggleMute }: {
-  thoughts: Thought[]; muted: boolean; onToggleMute: () => void;
+export function FeedPanel({ thoughts, muted, thinking, onToggleMute }: {
+  thoughts: Thought[]; muted: boolean; thinking?: boolean; onToggleMute: () => void;
 }) {
   const end = useRef<HTMLDivElement>(null);
   useEffect(() => { end.current?.scrollIntoView({ block: "end" }); }, [thoughts]);
@@ -194,10 +195,11 @@ export function FeedPanel({ thoughts, muted, onToggleMute }: {
         {thoughts.length === 0 && <div className="text-uni-muted">booting the beast…</div>}
         {thoughts.map((t) => (
           <div key={t.id} className="whitespace-pre-wrap break-words leading-snug">
-            <span className="text-uni-green">{t.tone === "user" ? "$ " : "» "}</span>
+            <span className="text-uni-green">{t.tone === "user" ? "$ " : t.tone === "unia" ? "unia » " : "» "}</span>
             <span className={TONE[t.tone]}>{t.text}</span>
           </div>
         ))}
+        {thinking && <div className="text-uni-muted"><span className="text-uni-green">unia » </span>typing…</div>}
         <div ref={end} />
       </div>
     </div>

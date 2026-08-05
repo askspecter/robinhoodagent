@@ -32,7 +32,13 @@ export default function Home() {
     [pass.owned]
   );
 
-  // command bar dispatch: nav/actions first, else talk to UNIA
+  // local agent commands (handled by the sim engine, not the AI brain)
+  const AGENT_CMDS = new Set([
+    "help", "bag", "pnl", "market", "mkt", "holdings", "pos",
+    "dare", "sendit", "mute", "unmute", "voice", "gm", "clear", "cls",
+  ]);
+
+  // command bar dispatch: nav/actions → agent commands → else TALK to UNIA (AI)
   const onRun = (raw: string) => {
     const [base] = raw.trim().toLowerCase().split(/\s+/);
     switch (base) {
@@ -48,8 +54,11 @@ export default function Home() {
       case "x": case "twitter": window.open(SOCIALS.x, "_blank", "noopener"); return;
       case "tg": case "telegram": window.open(SOCIALS.telegram, "_blank", "noopener"); return;
       case "socials": window.open(SOCIALS.x, "_blank", "noopener"); return;
-      default: unia.run(raw);
     }
+    if (AGENT_CMDS.has(base)) { unia.run(raw); return; }
+    // anything else → talk to UNIA's brain; show it on the Live feed
+    setActive("live");
+    unia.ask(raw);
   };
 
   return (
@@ -90,7 +99,7 @@ export default function Home() {
             </div>
             <div className="space-y-6 min-w-0">
               <MarketPanel tokens={unia.tokens} />
-              <FeedPanel thoughts={unia.thoughts} muted={unia.muted} onToggleMute={() => unia.setMuted(!unia.muted)} />
+              <FeedPanel thoughts={unia.thoughts} muted={unia.muted} thinking={unia.asking} onToggleMute={() => unia.setMuted(!unia.muted)} />
             </div>
           </section>
         )}

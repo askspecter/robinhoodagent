@@ -7,8 +7,9 @@ import {
 } from "./engine";
 import { line, roast, MOOD_LABEL, BOOT, pick } from "./phrases";
 
-export type Tone = "buy" | "sell" | "pump" | "dump" | "idle" | "sys" | "user";
+export type Tone = "buy" | "sell" | "pump" | "dump" | "idle" | "sys" | "user" | "unia";
 export type Thought = { id: number; text: string; tone: Tone };
+type ChatMsg = { role: "user" | "assistant"; content: string };
 
 type St = {
   tokens: Token[];
@@ -36,6 +37,8 @@ export function useUnia() {
   const [, force] = useReducer((x) => x + 1, 0);
   const idRef = useRef(1);
   const mutedRef = useRef(true); // silent by default; `unmute` to hear her
+  const chat = useRef<ChatMsg[]>([]); // conversation memory for her AI brain
+  const asking = useRef(false);
 
   const st = useRef<St>({
     tokens: initTokens(),
@@ -197,6 +200,34 @@ export function useUnia() {
     force();
   }, [push, dare, setMuted]);
 
+  // talk to UNIA's real brain (Bankr LLM Gateway via /api/chat)
+  const ask = useCallback(async (text: string) => {
+    const t = text.trim();
+    if (!t || asking.current) return;
+    push(t, "user", false);
+    chat.current = [...chat.current.slice(-12), { role: "user", content: t }];
+    asking.current = true; force();
+    const cur = st.current;
+    const nw = netWorth(cur.tokens, cur.positions, cur.cash);
+    const pnl = ((nw - START_CASH) / START_CASH) * 100;
+    const ctx = `mood ${cur.mood}; equity $${Math.round(nw)}; pnl ${pnl.toFixed(1)}%; cash $${Math.round(cur.cash)}; holdings ${cur.positions.map((p) => p.symbol).join(",") || "none"}`;
+    try {
+      const r = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: chat.current, context: ctx }),
+      });
+      const data = await r.json();
+      const reply = (data?.reply as string) || "…my horn short-circuited. say it again.";
+      chat.current = [...chat.current, { role: "assistant", content: reply }];
+      push(reply, "unia", true);
+    } catch {
+      push("brain glitched. gm anyway.", "unia", false);
+    } finally {
+      asking.current = false; force();
+    }
+  }, [push]);
+
   const s = st.current;
   const nw = netWorth(s.tokens, s.positions, s.cash);
   const pnlPct = ((nw - START_CASH) / START_CASH) * 100;
@@ -213,9 +244,11 @@ export function useUnia() {
     netWorth: nw,
     pnlPct,
     muted: mutedRef.current,
+    asking: asking.current,
     wake,
     dare,
     run,
+    ask,
     setMuted,
   };
 }
