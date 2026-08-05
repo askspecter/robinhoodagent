@@ -39,6 +39,8 @@ export function useUnia() {
   const mutedRef = useRef(true); // silent by default; `unmute` to hear her
   const chat = useRef<ChatMsg[]>([]); // conversation memory for her AI brain
   const asking = useRef(false);
+  const live = useRef(false);      // real DEX prices plugged in
+  const firstLive = useRef(false);
 
   const st = useRef<St>({
     tokens: initTokens(),
@@ -120,6 +122,32 @@ export function useUnia() {
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [st.current.awake, tick]);
+
+  // plug into real DEX prices; re-anchor every 30s (falls back to sim on failure)
+  useEffect(() => {
+    let alive = true;
+    const poll = async () => {
+      try {
+        const r = await fetch("/api/market");
+        const d = await r.json();
+        if (!alive || !d?.ok || !d.prices) return;
+        const s = st.current;
+        s.tokens = s.tokens.map((t) => {
+          const p = d.prices[t.symbol];
+          return p ? { ...t, price: p.price, prev: p.price, ch24: p.ch24 } : t;
+        });
+        if (!firstLive.current) {
+          firstLive.current = true;
+          push("plugged into live uniswap prices. i can see everything now.", "sys", false);
+        }
+        live.current = true;
+        force();
+      } catch { /* keep the simulation */ }
+    };
+    poll();
+    const id = setInterval(poll, 30000);
+    return () => { alive = false; clearInterval(id); };
+  }, [push]);
 
   const wake = useCallback(() => {
     if (st.current.awake) return;
@@ -245,6 +273,7 @@ export function useUnia() {
     pnlPct,
     muted: mutedRef.current,
     asking: asking.current,
+    live: live.current,
     wake,
     dare,
     run,

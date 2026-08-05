@@ -86,12 +86,21 @@ export function BagPanel({ netWorth, cash, pnlPct, mood, history }: {
 
 /* ------------------------------ Market ------------------------------- */
 export function MarketPanel({ tokens }: { tokens: Token[] }) {
+  const live = tokens.some((t) => typeof t.ch24 === "number");
   return (
     <div className="box">
-      <PanelHead mark="▚" title="LIVE MARKET" right={<span className="text-[11px] text-uni-muted">uniswap v3</span>} />
+      <PanelHead
+        mark="▚"
+        title="LIVE MARKET"
+        right={
+          live
+            ? <span className="text-[11px] text-uni-green flex items-center gap-1.5"><span className="dot bg-uni-green animate-[blink_1.4s_step-end_infinite]" /> live · 24h</span>
+            : <span className="text-[11px] text-uni-muted">uniswap v3 · paper</span>
+        }
+      />
       <div className="p-4 space-y-1.5 text-sm">
         {tokens.map((t) => {
-          const mv = ((t.price - t.prev) / t.prev) * 100;
+          const mv = typeof t.ch24 === "number" ? t.ch24 : ((t.price - t.prev) / t.prev) * 100;
           return (
             <div key={t.symbol} className="flex items-center gap-3">
               <span className="text-uni-text w-16 shrink-0">{t.symbol}</span>

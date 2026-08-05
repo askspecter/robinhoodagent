@@ -6,6 +6,7 @@ export type Token = {
   color: string;
   price: number;
   prev: number;
+  ch24?: number; // real 24h % change when live prices are plugged in
 };
 
 export type Position = { symbol: string; qty: number; cost: number };
@@ -38,10 +39,10 @@ export function initTokens(): Token[] {
 export function tickTokens(tokens: Token[]): { tokens: Token[]; event?: { symbol: string; pct: number } } {
   let event: { symbol: string; pct: number } | undefined;
   const next = tokens.map((tk) => {
-    let drift = (Math.random() - 0.5) * 0.03; // ±1.5%
-    if (Math.random() < 0.12) {
-      // event: violent spike
-      const mag = 0.1 + Math.random() * 0.4; // 10%–50%
+    let drift = (Math.random() - 0.5) * 0.01; // ±0.5% (gentle; real prices re-anchor)
+    if (Math.random() < 0.06) {
+      // event: spike (rarer + smaller, so it stays believable near real prices)
+      const mag = 0.06 + Math.random() * 0.16; // 6%–22%
       const dir = Math.random() < 0.5 ? 1 : -1;
       drift = dir * mag;
       const pct = Math.round(dir * mag * 100);
