@@ -39,9 +39,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
           accentColor: "#c3f53c",
           logo: undefined,
         },
-        loginMethods: ["wallet", "email", "google", "twitter"],
+        loginMethods: ["wallet"],
         embeddedWallets: {
-          ethereum: { createOnLogin: "users-without-wallets" },
+          ethereum: { createOnLogin: "off" },
         },
         defaultChain: robinhood,
         supportedChains: [robinhood],
