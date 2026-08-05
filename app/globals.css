@@ -2,17 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --uni-pink: #ff007a;
-  --bg: #0d0e12;
-}
+:root { --pink: #ff007a; --bg: #0d0e12; }
 
 html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--bg);
-  color: #eef0f6;
+  color: #f5f6fb;
+  font-family: var(--font-inter), system-ui, sans-serif;
   min-height: 100vh;
+  background-image:
+    radial-gradient(900px 500px at 80% -160px, rgba(255, 0, 122, 0.16), transparent 60%),
+    radial-gradient(700px 460px at 5% 10%, rgba(143, 92, 255, 0.12), transparent 60%);
 }
 
-::selection { background: rgba(255, 0, 122, 0.3); }
+::selection { background: rgba(255, 0, 122, 0.35); }
+
+.card {
+  background: linear-gradient(180deg, #16171d, #131319);
+  border: 1px solid #282a36;
+  border-radius: 22px;
+}
+.pill {
+  border: 1px solid #282a36;
+  background: #1c1d26;
+  border-radius: 999px;
+}
+.btn-pink {
+  background: linear-gradient(90deg, #ff007a, #ff4db8);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 16px;
+  transition: filter 0.15s ease, transform 0.05s ease;
+}
+.btn-pink:hover { filter: brightness(1.08); }
+.btn-pink:active { transform: translateY(1px); }
+.btn-pink:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-ghost {
+  border: 1px solid #34313f;
+  border-radius: 14px;
+  transition: all 0.15s ease;
+}
+.btn-ghost:hover { border-color: #ff007a; background: rgba(255, 0, 122, 0.08); }
+
+.grad-text {
+  background: linear-gradient(90deg, #ff007a, #ff8ad4, #8f5cff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.up { color: #31d68a; }
+.down { color: #ff5c5c; }

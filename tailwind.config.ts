@@ -1,47 +1,43 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./app/**/*.{js,ts,jsx,tsx,mdx}", "./components/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
-        // Zaibatsu-style green terminal
-        stonk: {
-          green: "#4fe37f",
-          greenDim: "#3a6b4c",
-          bright: "#7dffa6",
-          blue: "#6f8dff",
-          blueBright: "#8fa6ff",
-          amber: "#ffcf5a",
+        uni: {
+          pink: "#ff007a",
+          pinkSoft: "#ff5cae",
+          purple: "#8f5cff",
+          bg: "#0d0e12",
+          card: "#16171d",
+          card2: "#1c1d26",
+          line: "#282a36",
+          text: "#f5f6fb",
+          muted: "#9096a8",
+          up: "#31d68a",
+          down: "#ff5c5c",
           gold: "#ffcf5a",
-          ink: "#050705",
-          panel: "#0a0e0a",
-          panel2: "#0d120d",
-          line: "#1c3324",
-          red: "#ff6b6b",
-          muted: "#6a8f79",
         },
       },
       fontFamily: {
-        mono: ["var(--font-geist-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
-        display: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
-        pixel: ["var(--font-pixel)", "ui-monospace", "monospace"],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        mono: ["ui-monospace", "SFMono-Regular", "monospace"],
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(196,248,44,0.22), 0 0 40px -10px rgba(196,248,44,0.45)",
+        pink: "0 0 0 1px rgba(255,0,122,0.25), 0 18px 50px -20px rgba(255,0,122,0.5)",
       },
       keyframes: {
-        marquee: { "0%": { transform: "translateX(0)" }, "100%": { transform: "translateX(-50%)" } },
-        pulseGlow: { "0%,100%": { opacity: "1" }, "50%": { opacity: "0.5" } },
-        rise: { from: { opacity: "0", transform: "translateY(8px)" }, to: { opacity: "1", transform: "translateY(0)" } },
+        float: { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-10px)" } },
+        blink: { "0%,90%,100%": { transform: "scaleY(1)" }, "95%": { transform: "scaleY(0.1)" } },
+        pop: { from: { transform: "scale(0.96)", opacity: "0" }, to: { transform: "scale(1)", opacity: "1" } },
+        shimmer: { "0%": { backgroundPosition: "0% 50%" }, "100%": { backgroundPosition: "200% 50%" } },
       },
       animation: {
-        marquee: "marquee 32s linear infinite",
-        pulseGlow: "pulseGlow 2s ease-in-out infinite",
-        rise: "rise 0.5s ease both",
+        float: "float 4s ease-in-out infinite",
+        blink: "blink 5s infinite",
+        pop: "pop 0.25s ease both",
+        shimmer: "shimmer 3s linear infinite",
       },
     },
   },
