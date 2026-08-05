@@ -8,19 +8,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Neo-broker: lime on black
+        // StonkBrokers-faithful: yellow-lime on near-black
         stonk: {
-          green: "#c4f82c",
-          greenDim: "#8fae66",
-          bright: "#e6ffd6",
+          green: "#c6f24d",
+          greenDim: "#8a9a5f",
+          bright: "#eef3e6",
           amber: "#ffcf5a",
           gold: "#ffcf5a",
-          ink: "#0a0a0b",
-          panel: "#0d1207",
-          panel2: "#111608",
-          line: "#22320f",
+          ink: "#0a0a0a",
+          panel: "#131414",
+          panel2: "#191a1a",
+          line: "#2a2c26",
           red: "#ff6b6b",
-          muted: "#7f9a5e",
+          muted: "#8b8f86",
         },
       },
       fontFamily: {
