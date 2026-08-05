@@ -3,7 +3,6 @@
 import { useState } from "react";
 import type { PassState } from "@/lib/unia/useUniaPass";
 import { robinhoodChain, UNIA, SOCIALS, explorerTx } from "@/lib/config";
-import { roast } from "@/lib/unia/phrases";
 
 /** sub-tabs inside the "$UNIA · soon" hub */
 export type HubKey = "nft" | "rewards" | "docs" | "network" | "devs";
@@ -269,41 +268,44 @@ export function UniaHub({ pass }: { pass: PassState }) {
 }
 
 /* ------------------------------- Roast ------------------------------- */
-const hexAddr = () => "0x" + Array.from({ length: 40 }, () => "0123456789abcdef"[Math.floor(Math.random() * 16)]).join("");
-function fakeBal(addr: string): number {
-  let h = 0;
-  for (const c of addr) h = (h * 31 + c.charCodeAt(0)) >>> 0;
-  return +(Math.pow((h % 10000) / 10000, 3) * 8).toFixed(4);
-}
-
 export function RoastSection({ pass }: { pass: PassState }) {
   const [addr, setAddr] = useState("");
   const [lines, setLines] = useState<string[]>([]);
-  const run = () => {
-    const useMine = !addr.trim() && pass.connected;
-    const target = addr.trim() || pass.address || hexAddr();
-    const bal = useMine && pass.isReal && pass.ethBalance != null ? Number(pass.ethBalance) : fakeBal(target);
-    setLines(roast(target, bal));
+  const [loading, setLoading] = useState(false);
+  const run = async () => {
+    const target = (addr.trim() || pass.address).trim();
+    if (!target || loading) return;
+    setLoading(true); setLines([]);
+    try {
+      const r = await fetch(`/api/roast?address=${encodeURIComponent(target)}`);
+      const d = await r.json();
+      setLines(Array.isArray(d.lines) ? d.lines : ["…she's speechless. that's a first."]);
+    } catch {
+      setLines(["my brain glitched. try again."]);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
-    <Box mark="◈" title="UNIA ROASTS" right={<span className="text-[11px] text-uni-muted">no manners</span>}>
+    <Box mark="◈" title="UNIA ROASTS" right={<span className="text-[11px] text-uni-muted">reads the chain</span>}>
       <div className="space-y-4">
-        <p className="text-uni-muted leading-snug">drop a wallet address and UNIA will read it back to you. she is a horse. she has no filter.</p>
+        <p className="text-uni-muted leading-snug">drop a wallet (or ENS). UNIA reads it on-chain and reads YOU back. she is a horse. she has no filter.</p>
         <div className="flex flex-col sm:flex-row gap-2">
           <input
             value={addr}
             onChange={(e) => setAddr(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && run()}
-            placeholder="0x… wallet (or leave blank to roast yours)"
+            placeholder="0x… or vitalik.eth (blank = your wallet)"
             spellCheck={false} autoCapitalize="off" autoComplete="off"
             className="box flex-1 min-w-0 px-3 py-2.5 bg-transparent outline-none text-uni-text text-sm caret-[#7ecb3c]"
             aria-label="wallet to roast"
           />
-          <button onClick={run} className="btn btn-solid shrink-0 px-5 py-2.5">roast it</button>
+          <button onClick={run} disabled={loading} className="btn btn-solid shrink-0 px-5 py-2.5 disabled:opacity-60">{loading ? "roasting…" : "roast it"}</button>
         </div>
         {!pass.connected && (
           <button onClick={pass.connect} className="btn w-full py-2 text-xs">or connect wallet to roast yourself</button>
         )}
+        {loading && <div className="text-uni-muted text-sm">reading the chain…</div>}
         {lines.length > 0 && (
           <div className="box p-4 space-y-1.5 text-sm">
             {lines.map((l, i) => (
