@@ -4,16 +4,29 @@ import { useEffect, useRef, useState } from "react";
 import { MENU, type Log, type Metrics } from "@/lib/unia/terminal";
 
 /* ------------------------------- Logo -------------------------------- */
+const UNIA = String.raw`██╗   ██╗███╗   ██╗██╗ █████╗
+██║   ██║████╗  ██║██║██╔══██╗
+██║   ██║██╔██╗ ██║██║███████║
+██║   ██║██║╚██╗██║██║██╔══██║
+╚██████╔╝██║ ╚████║██║██║  ██║
+ ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝`;
+
 export function Logo() {
   return (
     <div>
-      <div
-        className="font-pixel text-uni-green leading-none"
-        style={{ fontSize: "clamp(56px,11vw,120px)", textShadow: "4px 4px 0 rgba(77,255,58,0.25), 0 0 18px rgba(77,255,58,0.5)" }}
+      <pre
+        aria-label="UNIA"
+        className="font-mono text-uni-green leading-none select-none overflow-x-auto no-scrollbar"
+        style={{
+          fontSize: "clamp(11px, 3.2vw, 26px)",
+          lineHeight: 1.0,
+          margin: 0,
+          textShadow: "0 0 10px rgba(77,255,58,0.55), 0 0 22px rgba(77,255,58,0.28)",
+        }}
       >
-        UNIA
-      </div>
-      <div className="mt-3 text-sm sm:text-base text-uni-text">
+        {UNIA}
+      </pre>
+      <div className="mt-4 text-sm sm:text-base text-uni-text">
         <span className="text-uni-green">&gt;</span> The autonomous terminal for the{" "}
         <span className="text-uni-green glow">Robinhood</span> network.
       </div>
