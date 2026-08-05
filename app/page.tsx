@@ -1,13 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import { useTerminal } from "@/lib/unia/terminal";
+import { useEffect, useState } from "react";
+import { useUnia } from "@/lib/unia/useUnia";
 import { Unicorn } from "@/components/Unicorn";
-import { Logo, Menu, SystemStatus, Logs, CommandBar } from "@/components/Panels";
+import { Logo, Menu, CommandBar } from "@/components/Panels";
+import { BagPanel, MarketPanel, HoldingsPanel, TapePanel, FeedPanel } from "@/components/Agent";
 
 export default function Home() {
-  const term = useTerminal();
+  const unia = useUnia();
   const [active, setActive] = useState(1);
+
+  // wake the agent once; she starts trading (silently) on load
+  useEffect(() => {
+    unia.wake();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main className="relative z-10 min-h-screen p-3 sm:p-6 md:p-8">
@@ -34,17 +41,24 @@ export default function Home() {
           </div>
         </section>
 
-        {/* bottom: status + logs */}
-        <section className="grid lg:grid-cols-2 gap-6">
-          <SystemStatus metrics={term.metrics} uptime={term.uptime} />
-          <Logs logs={term.logs} />
+        {/* the agent — 2 columns of live panels */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          <div className="space-y-6 min-w-0">
+            <BagPanel netWorth={unia.netWorth} cash={unia.cash} pnlPct={unia.pnlPct} mood={unia.mood} history={unia.history} />
+            <HoldingsPanel positions={unia.positions} tokens={unia.tokens} />
+            <TapePanel trades={unia.trades} />
+          </div>
+          <div className="space-y-6 min-w-0">
+            <MarketPanel tokens={unia.tokens} />
+            <FeedPanel thoughts={unia.thoughts} muted={unia.muted} onToggleMute={() => unia.setMuted(!unia.muted)} />
+          </div>
         </section>
 
         {/* command bar */}
-        <CommandBar onRun={term.run} />
+        <CommandBar onRun={unia.run} />
 
         <div className="text-center text-[11px] text-uni-muted mt-6">
-          UNIA · the first agent on Uniswap · not affiliated with Uniswap Labs.
+          UNIA · the first agent on Uniswap · not affiliated with Uniswap Labs. paper-trading art project, not financial advice.
         </div>
       </div>
     </main>
