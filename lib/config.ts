@@ -24,10 +24,10 @@ export const robinhoodChain = {
 export const UNIA = {
   token: {
     symbol: "$UNIA",
-    // ⇩ PASTE THE DEPLOYED $UNIA TOKEN ADDRESS HERE (from pools.trade launch).
-    //   The moment this is a real address, holder-detection, explorer links,
-    //   the Buy box and the pools.trade deep-link all switch on automatically.
-    address: "0x0000000000000000000000000000000000000000", // TODO: real $UNIA
+    // Deployed $UNIA token on Robinhood Chain (live on pools.trade).
+    // A real address here switches on holder-detection, explorer links,
+    // the Buy box and the pools.trade deep-link automatically.
+    address: "0x22FAE0F9eAd728768e29b1E14ea46F409Fb06658",
     // hold at least this much $UNIA to mint the Pass for free
     freeMintHold: 5_000_000,
   },
