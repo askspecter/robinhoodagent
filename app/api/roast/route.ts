@@ -9,7 +9,12 @@ export const runtime = "nodejs";
 
 const client = createPublicClient({
   chain: mainnet,
-  transport: http(process.env.ETH_RPC_URL || "https://eth.llamarpc.com"),
+  // fail fast: if the RPC is slow/down we fall back to a local roast rather
+  // than hanging the request (a hung roast reads as "broken" to the user).
+  transport: http(process.env.ETH_RPC_URL || "https://eth.llamarpc.com", {
+    timeout: 4000,
+    retryCount: 1,
+  }),
 });
 
 const SYSTEM = `you are UNIA — the first agent on Uniswap, a savage degen unicorn who roasts wallets.
@@ -31,7 +36,13 @@ export async function GET(req: NextRequest) {
     } catch { /* ignore */ }
   }
   if (!isAddress(addr)) {
-    return NextResponse.json({ lines: ["that's not a wallet, that's a keysmash. try again."], real: false });
+    const wasEns = input.toLowerCase().endsWith(".eth");
+    return NextResponse.json({
+      lines: [wasEns
+        ? "couldn't resolve that ENS name — drop the 0x address instead."
+        : "that's not a wallet, that's a keysmash. try again."],
+      real: false,
+    });
   }
 
   let ethBal = 0, txs = 0;

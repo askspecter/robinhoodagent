@@ -397,13 +397,18 @@ export function RoastSection({ pass }: { pass: PassState }) {
   const [lines, setLines] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const run = async () => {
+    if (loading) return;
     const target = (addr.trim() || pass.address).trim();
-    if (!target || loading) return;
+    // blank field + no wallet → tell the user instead of doing nothing
+    if (!target) {
+      setLines(["paste a wallet (or ENS), or connect yours below — i can't roast a ghost."]);
+      return;
+    }
     setLoading(true); setLines([]);
     try {
       const r = await fetch(`/api/roast?address=${encodeURIComponent(target)}`);
       const d = await r.json();
-      setLines(Array.isArray(d.lines) ? d.lines : ["…she's speechless. that's a first."]);
+      setLines(Array.isArray(d.lines) && d.lines.length ? d.lines : ["…she's speechless. that's a first."]);
     } catch {
       setLines(["my brain glitched. try again."]);
     } finally {
