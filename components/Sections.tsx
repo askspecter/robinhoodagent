@@ -1,8 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import type { PassState } from "@/lib/unia/useUniaPass";
-import type { SectionKey } from "@/lib/unia/terminal";
 import { robinhoodChain, UNIA, SOCIALS, explorerTx } from "@/lib/config";
+import { roast } from "@/lib/unia/phrases";
+
+/** sub-tabs inside the "$UNIA · soon" hub */
+export type HubKey = "nft" | "rewards" | "docs" | "network" | "devs";
 
 /* ------------------------------ helpers ------------------------------ */
 const short = (a: string) => (a ? `${a.slice(0, 6)}…${a.slice(-4)}` : "");
@@ -70,7 +74,7 @@ function PassCard({ pass }: { pass: PassState }) {
 }
 
 /* -------------------------------- NFT -------------------------------- */
-export function NftSection({ pass, goto }: { pass: PassState; goto: (k: SectionKey) => void }) {
+export function NftSection({ pass, goto }: { pass: PassState; goto: (k: HubKey) => void }) {
   const free = pass.isHolder;
   return (
     <section className="grid lg:grid-cols-2 gap-6 items-start">
@@ -137,7 +141,7 @@ const PRO = [
   "PRO · alpha: buy fear, sell euphoria, tip the unicorn.",
 ];
 
-export function RewardsSection({ pass, goto }: { pass: PassState; goto: (k: SectionKey) => void }) {
+export function RewardsSection({ pass, goto }: { pass: PassState; goto: (k: HubKey) => void }) {
   if (!pass.owned) {
     return (
       <Box mark="★" title="REWARDS · PREMIUM" right={<span className="text-[11px] text-uni-down">locked</span>}>
@@ -235,17 +239,117 @@ await pass.mint({ value: price }) // Robinhood Chain #4663`}</pre>
   );
 }
 
-/* ------------------------------- Exit -------------------------------- */
-export function ExitSection({ pass, goto }: { pass: PassState; goto: (k: SectionKey) => void }) {
+/* ------------------------------ $UNIA hub ---------------------------- */
+const HUB_TABS: [HubKey, string][] = [
+  ["nft", "NFT Pass"], ["rewards", "Rewards"], ["docs", "Docs"], ["network", "Network"], ["devs", "Devs"],
+];
+
+export function UniaHub({ pass }: { pass: PassState }) {
+  const [sub, setSub] = useState<HubKey>("nft");
   return (
-    <Box mark="⏻" title="EXIT">
-      <div className="space-y-3">
-        <p className="text-uni-muted">session paused. the unicorn keeps trading without you — she always does.</p>
-        <div className="flex gap-3">
-          <button onClick={() => { pass.disconnect(); goto("terminal"); }} className="btn py-2.5 px-4">disconnect</button>
-          <button onClick={() => goto("terminal")} className="btn btn-solid py-2.5 px-4">re-enter terminal</button>
+    <div className="space-y-6">
+      <div className="box p-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
+        <div className="text-uni-muted text-sm min-w-0">
+          <span className="text-uni-green">$UNIA</span> &amp; <span className="text-uni-green">UNIA PASS</span> — token economy.{" "}
+          <span className="text-uni-gold">coming soon</span> · preview below.
+        </div>
+        <div className="flex flex-wrap gap-2 shrink-0">
+          {HUB_TABS.map(([k, l]) => (
+            <button key={k} onClick={() => setSub(k)} className={`btn px-3 py-1.5 text-xs normal-case ${sub === k ? "btn-solid" : ""}`}>{l}</button>
+          ))}
         </div>
       </div>
+      {sub === "nft" && <NftSection pass={pass} goto={setSub} />}
+      {sub === "rewards" && <RewardsSection pass={pass} goto={setSub} />}
+      {sub === "docs" && <DocsSection />}
+      {sub === "network" && <NetworkSection />}
+      {sub === "devs" && <DevsSection />}
+    </div>
+  );
+}
+
+/* ------------------------------- Roast ------------------------------- */
+const hexAddr = () => "0x" + Array.from({ length: 40 }, () => "0123456789abcdef"[Math.floor(Math.random() * 16)]).join("");
+function fakeBal(addr: string): number {
+  let h = 0;
+  for (const c of addr) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return +(Math.pow((h % 10000) / 10000, 3) * 8).toFixed(4);
+}
+
+export function RoastSection({ pass }: { pass: PassState }) {
+  const [addr, setAddr] = useState("");
+  const [lines, setLines] = useState<string[]>([]);
+  const run = () => {
+    const useMine = !addr.trim() && pass.connected;
+    const target = addr.trim() || pass.address || hexAddr();
+    const bal = useMine && pass.isReal && pass.ethBalance != null ? Number(pass.ethBalance) : fakeBal(target);
+    setLines(roast(target, bal));
+  };
+  return (
+    <Box mark="◈" title="UNIA ROASTS" right={<span className="text-[11px] text-uni-muted">no manners</span>}>
+      <div className="space-y-4">
+        <p className="text-uni-muted leading-snug">drop a wallet address and UNIA will read it back to you. she is a horse. she has no filter.</p>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <input
+            value={addr}
+            onChange={(e) => setAddr(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && run()}
+            placeholder="0x… wallet (or leave blank to roast yours)"
+            spellCheck={false} autoCapitalize="off" autoComplete="off"
+            className="box flex-1 min-w-0 px-3 py-2.5 bg-transparent outline-none text-uni-text text-sm caret-[#7ecb3c]"
+            aria-label="wallet to roast"
+          />
+          <button onClick={run} className="btn btn-solid shrink-0 px-5 py-2.5">roast it</button>
+        </div>
+        {!pass.connected && (
+          <button onClick={pass.connect} className="btn w-full py-2 text-xs">or connect wallet to roast yourself</button>
+        )}
+        {lines.length > 0 && (
+          <div className="box p-4 space-y-1.5 text-sm">
+            {lines.map((l, i) => (
+              <div key={i} className="leading-snug"><span className="text-uni-green">» </span><span className="text-uni-text">{l}</span></div>
+            ))}
+          </div>
+        )}
+      </div>
     </Box>
+  );
+}
+
+/* ------------------------------- About ------------------------------- */
+export function AboutSection() {
+  const H = ({ children }: { children: React.ReactNode }) => <div className="text-uni-green tracking-wide pt-3 first:pt-0">{children}</div>;
+  return (
+    <section className="grid lg:grid-cols-2 gap-6 items-start">
+      <Box mark="✦" title="WHO IS UNIA" right={<span className="text-[11px] text-uni-muted">degen unicorn</span>}>
+        <div className="space-y-2 leading-snug text-uni-muted">
+          <p>UNIA is <span className="text-uni-text">the first agent on Uniswap</span> — an autonomous degen unicorn. She has her own bag, trades live, thinks out loud, and reads your wallet with zero mercy.</p>
+          <H># the deal</H>
+          <p>She wakes up, decides she&apos;s rich, and starts sending. Paper book, real feelings. Every ape, every panic, every cope is streamed in real time on the <span className="text-uni-text">Live</span> terminal.</p>
+          <H># disclaimer</H>
+          <p>Paper-trading art project. Not financial advice. She is a horse.</p>
+        </div>
+      </Box>
+
+      <Box mark="◈" title="PERSONALITY" right={<span className="text-[11px] text-uni-green">unhinged</span>}>
+        <div className="space-y-2 text-sm">
+          {[
+            ["risk management", "not found"],
+            ["conscience module", "NOT FOUND"],
+            ["conviction", "100 / 100"],
+            ["patience", "sold at a loss"],
+            ["hooves", "diamond"],
+            ["brain", "paper"],
+          ].map(([k, v]) => (
+            <div key={k} className="flex gap-3">
+              <span className="text-uni-muted w-40 shrink-0">{k}</span>
+              <span className="text-uni-muted shrink-0">:</span>
+              <span className="text-uni-text">{v}</span>
+            </div>
+          ))}
+          <div className="text-uni-green pt-1">&gt; &quot;diamond hooves. paper brain. perfect combination.&quot;</div>
+        </div>
+      </Box>
+    </section>
   );
 }

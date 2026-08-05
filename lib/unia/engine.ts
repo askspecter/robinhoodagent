@@ -25,11 +25,11 @@ export const START_CASH = 10000;
 export function initTokens(): Token[] {
   const base: Omit<Token, "prev">[] = [
     { symbol: "WETH", name: "Ether", color: "#8f9dff", price: 3200 },
-    { symbol: "UNI", name: "Uniswap", color: "#ff2e88", price: 12.4 },
-    { symbol: "PEPE", name: "Pepe", color: "#4fd06a", price: 0.0000091 },
-    { symbol: "DEGEN", name: "Degen", color: "#b06bff", price: 0.014 },
     { symbol: "WBTC", name: "Bitcoin", color: "#f7931a", price: 96000 },
-    { symbol: "MOG", name: "Mog", color: "#ffb000", price: 0.0000015 },
+    { symbol: "UNI", name: "Uniswap", color: "#ff2e88", price: 12.4 },
+    { symbol: "ARB", name: "Arbitrum", color: "#28a0f0", price: 0.82 },
+    { symbol: "PEPE", name: "Pepe", color: "#4fd06a", price: 0.0000091 },
+    { symbol: "UNIA", name: "Unia", color: "#7ecb3c", price: 0.0042 },
   ];
   return base.map((b) => ({ ...b, prev: b.price }));
 }

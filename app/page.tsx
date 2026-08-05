@@ -8,14 +8,12 @@ import { SOCIALS } from "@/lib/config";
 import { Unicorn } from "@/components/Unicorn";
 import { Logo, Menu, CommandBar } from "@/components/Panels";
 import { BagPanel, MarketPanel, HoldingsPanel, TapePanel, FeedPanel } from "@/components/Agent";
-import {
-  WalletChip, NftSection, RewardsSection, DocsSection, NetworkSection, DevsSection, ExitSection,
-} from "@/components/Sections";
+import { WalletChip, UniaHub, RoastSection, AboutSection } from "@/components/Sections";
 
 export default function Home() {
   const unia = useUnia();
   const pass = useUniaPass();
-  const [active, setActive] = useState<SectionKey>("terminal");
+  const [active, setActive] = useState<SectionKey>("live");
 
   // wake the agent once; she starts trading (silently) on load
   useEffect(() => {
@@ -23,31 +21,30 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // live menu — statuses reflect wallet/pass state
+  // live menu — the $UNIA hub reflects pass state
   const items = useMemo(
     () =>
-      MENU.map((m) => {
-        if (m.key === "nft") return { ...m, status: pass.owned ? "owned" : "mint open" };
-        if (m.key === "rewards") return { ...m, status: pass.owned ? "premium" : "locked", on: pass.owned };
-        return m;
-      }),
+      MENU.map((m) =>
+        m.key === "unia"
+          ? { ...m, status: pass.owned ? "owned" : "soon", on: pass.owned }
+          : m
+      ),
     [pass.owned]
   );
 
-  // command bar dispatch: app nav/actions first, else the agent
+  // command bar dispatch: nav/actions first, else talk to UNIA
   const onRun = (raw: string) => {
     const [base] = raw.trim().toLowerCase().split(/\s+/);
     switch (base) {
-      case "connect": pass.connect(); setActive("nft"); return;
+      case "roast": setActive("roast"); return;
+      case "about": case "who": setActive("about"); return;
+      case "live": case "terminal": case "home": setActive("live"); return;
+      case "connect": pass.connect(); setActive("unia"); return;
       case "disconnect": pass.disconnect(); return;
-      case "mint": setActive("nft"); pass.mint(); return;
+      case "mint": setActive("unia"); pass.mint(); return;
       case "claim": pass.claim(); return;
-      case "nft": case "pass": setActive("nft"); return;
-      case "rewards": setActive("rewards"); return;
-      case "docs": setActive("docs"); return;
-      case "network": case "net": setActive("network"); return;
-      case "devs": case "developers": setActive("devs"); return;
-      case "terminal": case "home": setActive("terminal"); return;
+      case "nft": case "pass": case "rewards": case "docs": case "network": case "net": case "devs": case "developers":
+        setActive("unia"); return;
       case "x": case "twitter": window.open(SOCIALS.x, "_blank", "noopener"); return;
       case "tg": case "telegram": window.open(SOCIALS.telegram, "_blank", "noopener"); return;
       case "socials": window.open(SOCIALS.x, "_blank", "noopener"); return;
@@ -84,7 +81,7 @@ export default function Home() {
         </section>
 
         {/* routed content */}
-        {active === "terminal" && (
+        {active === "live" && (
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
             <div className="space-y-6 min-w-0">
               <BagPanel netWorth={unia.netWorth} cash={unia.cash} pnlPct={unia.pnlPct} mood={unia.mood} history={unia.history} />
@@ -97,12 +94,9 @@ export default function Home() {
             </div>
           </section>
         )}
-        {active === "nft" && <NftSection pass={pass} goto={setActive} />}
-        {active === "rewards" && <RewardsSection pass={pass} goto={setActive} />}
-        {active === "docs" && <DocsSection />}
-        {active === "network" && <NetworkSection />}
-        {active === "devs" && <DevsSection />}
-        {active === "exit" && <ExitSection pass={pass} goto={setActive} />}
+        {active === "roast" && <RoastSection pass={pass} />}
+        {active === "about" && <AboutSection />}
+        {active === "unia" && <UniaHub pass={pass} />}
 
         {/* command bar */}
         <CommandBar onRun={onRun} />

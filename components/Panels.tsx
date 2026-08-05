@@ -31,6 +31,9 @@ export function Logo() {
         <span className="text-uni-green">&gt;</span> The first autonomous agent on{" "}
         <span className="text-uni-green">Uniswap</span>.
       </div>
+      <div className="mt-1 text-xs sm:text-sm text-uni-muted leading-snug">
+        the autonomous degen unicorn — she trades live, thinks out loud, and will roast your wallet.
+      </div>
       <div className="mt-3 flex items-center gap-4 text-xs">
         <a href={SOCIALS.x} target="_blank" rel="noreferrer" className="text-uni-muted hover:text-uni-green transition-colors">X ↗</a>
         <span className="text-uni-muted">·</span>
@@ -77,7 +80,7 @@ export function CommandBar({ onRun }: { onRun: (cmd: string) => void }) {
           onKeyDown={(e) => e.key === "Enter" && submit()}
           spellCheck={false} autoCapitalize="off" autoComplete="off"
           className="flex-1 min-w-0 bg-transparent outline-none text-uni-text caret-[#7ecb3c]"
-          placeholder="type a command · try 'help'"
+          placeholder="talk to UNIA · try 'roast', 'gm', 'dare'"
           aria-label="command"
         />
       </div>
