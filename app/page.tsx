@@ -82,6 +82,17 @@ export default function Home() {
           </div>
         </div>
 
+        {/* safety / disclaimer strip — clarifies this is an unofficial art
+            project and never asks for secrets, reducing false "deceptive site"
+            flags from Safe Browsing. */}
+        <div className="mb-4 flex items-start gap-2 rounded-lg border border-uni-line px-3 py-2 text-[11px] leading-snug text-uni-muted">
+          <span className="text-uni-gold shrink-0">ⓘ</span>
+          <span>
+            Unofficial community project · <span className="text-uni-text">not affiliated with Uniswap Labs or Robinhood Markets, Inc.</span>{" "}
+            UNIA is a paper-trading art project. It will <span className="text-uni-text">never</span> ask for your seed phrase, private key, or password — connecting a wallet is read-only.
+          </span>
+        </div>
+
         {/* launch countdown → pools.trade */}
         <LaunchBanner />
 
@@ -120,8 +131,8 @@ export default function Home() {
           <span className="text-uni-muted">·</span>
           <a href={SOCIALS.telegram} target="_blank" rel="noreferrer" className="text-uni-muted hover:text-uni-green transition-colors">Telegram ↗</a>
         </div>
-        <div className="text-center text-[11px] text-uni-muted mt-3">
-          UNIA · the first agent on Uniswap · Robinhood Chain #4663 · not affiliated with Uniswap Labs or Robinhood Markets, Inc. · paper-trading art project, not financial advice.
+        <div className="text-center text-[11px] text-uni-muted mt-3 leading-snug">
+          UNIA · the first agent on Uniswap · Robinhood Chain #4663 · unofficial project, not affiliated with Uniswap Labs or Robinhood Markets, Inc. · paper-trading art project, not financial advice. UNIA never asks for your seed phrase, private key, or password.
         </div>
       </div>
     </main>
