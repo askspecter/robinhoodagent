@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 import type { PassState } from "@/lib/unia/useUniaPass";
-import { useUniaBuy } from "@/lib/unia/useUniaBuy";
 import {
-  robinhoodChain, UNIA, POOLS, SOCIALS,
-  explorerTx, explorerAddress, explorerToken, isPlaceholderAddr, poolsTradeUrl,
+  robinhoodChain, UNIA, SOCIALS,
+  explorerTx, explorerToken, isPlaceholderAddr, ponsUrl,
 } from "@/lib/config";
 
 /** sub-tabs inside the "$UNIA · soon" hub */
@@ -237,36 +236,14 @@ const free = bal >= 5_000_000n * 10n**18n
 const price = free ? 0n : parseEther("0.005")
 await pass.mint({ value: price }) // Robinhood Chain #4663`}</pre>
         </div>
-
-        <div className="pt-3 border-t border-uni-line">
-          <div className="text-uni-green tracking-wide mb-2">pools.trade contracts</div>
-          {([
-            ["liquidity launcher", POOLS.liquidityLauncher],
-            ["atomic buy route", POOLS.atomicBuyRoute],
-            ["creator fee vault", POOLS.creatorFeeVault],
-            ["fees on", POOLS.feesOn],
-            ["fees off", POOLS.feesOff],
-          ] as [string, string][]).map(([k, v]) => (
-            <div key={k} className="flex gap-2 sm:gap-3">
-              <span className="text-uni-muted w-28 sm:w-32 shrink-0">{k}</span>
-              <span className="text-uni-muted shrink-0">:</span>
-              <a href={explorerAddress(v)} target="_blank" rel="noreferrer" className="text-uni-text hover:text-uni-green min-w-0 break-all">{v} ↗</a>
-            </div>
-          ))}
-          <div className="text-uni-muted text-xs pt-2 leading-snug">
-            protocol infra on Robinhood Chain — shown for verification. The site trades $UNIA via pools.trade; it does not custody or control these.
-          </div>
-        </div>
       </div>
     </Box>
   );
 }
 
 /* -------------------------------- Buy -------------------------------- */
-export function BuySection({ pass }: { pass: PassState }) {
-  const buy = useUniaBuy();
-  const [amt, setAmt] = useState(buy.presets[0] ?? "0.05");
-  const live = buy.tokenLive;
+export function BuySection() {
+  const live = !isPlaceholderAddr(UNIA.token.address);
   const tokenAddr = UNIA.token.address;
 
   return (
@@ -274,66 +251,26 @@ export function BuySection({ pass }: { pass: PassState }) {
       <Box
         mark="◈"
         title="BUY $UNIA"
-        right={
-          <span className={`text-[11px] ${buy.nativeReady ? "text-uni-green" : "text-uni-muted"}`}>
-            {buy.nativeReady ? "on-chain · atomic route" : "via pools.trade"}
-          </span>
-        }
+        right={<span className={`text-[11px] ${live ? "text-uni-green" : "text-uni-muted"}`}>on Pons</span>}
       >
         <div className="space-y-4">
           <p className="text-uni-muted leading-snug">
             {live
-              ? <>ape into <span className="text-uni-green">$UNIA</span> with ETH — routed through pools.trade{buy.nativeReady ? " in one tx." : "."}</>
+              ? <>ape into <span className="text-uni-green">$UNIA</span> on <span className="text-uni-green">Pons</span> — the launchpad on Robinhood Chain. Connect your wallet there and swap; every tx is approved by you.</>
               : <>$UNIA isn&apos;t live on-chain yet. The moment the token address lands, buying opens here.</>}
           </p>
 
-          <div>
-            <div className="text-uni-muted text-xs mb-1.5">amount (ETH)</div>
-            <input
-              value={amt}
-              onChange={(e) => setAmt(e.target.value)}
-              inputMode="decimal"
-              spellCheck={false}
-              placeholder="0.05"
-              className="box w-full px-3 py-2.5 bg-transparent outline-none text-uni-text text-sm caret-[#ff3ba7]"
-              aria-label="amount in ETH"
-            />
-            <div className="flex flex-wrap gap-2 pt-2">
-              {buy.presets.map((p) => (
-                <button
-                  key={p}
-                  onClick={() => setAmt(p)}
-                  className={`btn px-3 py-1.5 text-xs ${amt === p ? "btn-solid" : ""}`}
-                >
-                  {p} ETH
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {!pass.connected ? (
-            <button onClick={pass.connect} className="btn btn-solid w-full py-3">connect wallet to buy</button>
-          ) : (
-            <button
-              onClick={() => buy.buy(amt)}
-              disabled={buy.buying}
-              className="btn btn-solid w-full py-3 disabled:opacity-60"
-            >
-              {buy.buying ? "confirming…" : buy.nativeReady ? `buy $UNIA · ${amt} ETH` : "buy on pools.trade →"}
-            </button>
-          )}
-
-          {buy.error && <div className="text-uni-down text-xs">{buy.error}</div>}
-          {buy.tx && (
-            <a href={explorerTx(buy.tx)} target="_blank" rel="noreferrer" className="text-uni-muted hover:text-uni-green break-all text-xs">
-              ✓ tx: {buy.tx.slice(0, 18)}… ↗
-            </a>
-          )}
+          <a
+            href={ponsUrl()}
+            target="_blank"
+            rel="noreferrer"
+            className="btn btn-solid w-full py-3 text-center block"
+          >
+            {live ? "buy $UNIA on Pons →" : "open Pons →"}
+          </a>
 
           <div className="pt-2 border-t border-uni-line text-xs text-uni-muted leading-snug">
-            {buy.nativeReady
-              ? <>slippage guard · pools.trade atomic route · Robinhood Chain #{robinhoodChain.id}</>
-              : <>opens <a href={buy.link} target="_blank" rel="noreferrer" className="text-uni-green hover:underline">pools.trade</a> — native one-click buy turns on once the route is wired.</>}
+            Pons is a non-custodial launchpad — it never holds your keys, and you approve every transaction in your own wallet.
           </div>
         </div>
       </Box>
@@ -345,10 +282,10 @@ export function BuySection({ pass }: { pass: PassState }) {
             k="contract"
             v={live
               ? <a href={explorerToken(tokenAddr)} target="_blank" rel="noreferrer" className="hover:text-uni-green break-all">{tokenAddr} ↗</a>
-              : <span className="text-uni-muted">launching on pools.trade…</span>}
+              : <span className="text-uni-muted">launching on Pons…</span>}
           />
           <Row k="chain" v={`Robinhood Chain · #${robinhoodChain.id}`} />
-          <Row k="market" v={<a href={poolsTradeUrl()} target="_blank" rel="noreferrer" className="hover:text-uni-green">pools.trade ↗</a>} />
+          <Row k="market" v={<a href={ponsUrl()} target="_blank" rel="noreferrer" className="hover:text-uni-green">Pons ↗</a>} />
           <div className="text-uni-muted pt-1 text-xs leading-snug">
             hold <span className="text-uni-green">5,000,000 $UNIA</span> → mint the UNIA PASS free &amp; stream rewards.
           </div>
@@ -372,8 +309,8 @@ export function UniaHub({ pass }: { pass: PassState }) {
         <div className="text-uni-muted text-sm min-w-0">
           <span className="text-uni-green">$UNIA</span> &amp; <span className="text-uni-green">UNIA PASS</span> — token economy.{" "}
           {live
-            ? <span className="text-uni-green">live on pools.trade</span>
-            : <span className="text-uni-gold">launching on pools.trade</span>}.
+            ? <span className="text-uni-green">live on Pons</span>
+            : <span className="text-uni-gold">launching on Pons</span>}.
         </div>
         <div className="flex flex-wrap gap-2 shrink-0">
           {HUB_TABS.map(([k, l]) => (
@@ -381,7 +318,7 @@ export function UniaHub({ pass }: { pass: PassState }) {
           ))}
         </div>
       </div>
-      {sub === "buy" && <BuySection pass={pass} />}
+      {sub === "buy" && <BuySection />}
       {sub === "nft" && <NftSection pass={pass} goto={setSub} />}
       {sub === "rewards" && <RewardsSection pass={pass} goto={setSub} />}
       {sub === "docs" && <DocsSection />}

@@ -38,7 +38,7 @@ export function LaunchBanner() {
         <span className="text-sm leading-snug">
           <span className="text-uni-green tracking-widest text-xs">{live ? "LIVE" : "LAUNCH"}</span>{" "}
           <span className="text-uni-text">{live ? "$UNIA is live on " : "$UNIA launches on "}</span>
-          <span className="text-uni-green">pools.trade</span>
+          <span className="text-uni-green">Pons</span>
           <span className="text-uni-muted"> · Robinhood Chain</span>
         </span>
       </div>
@@ -50,12 +50,12 @@ export function LaunchBanner() {
           </span>
         )}
         <a
-          href={LAUNCH.poolsUrl}
+          href={LAUNCH.ponsUrl}
           target="_blank"
           rel="noreferrer"
           className="btn btn-solid text-xs px-4 py-2 shrink-0 whitespace-nowrap"
         >
-          {live ? "trade on pools.trade →" : "pools.trade →"}
+          {live ? "trade on Pons →" : "Pons →"}
         </a>
       </div>
     </div>

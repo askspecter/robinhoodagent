@@ -8,8 +8,8 @@ export const revalidate = 0;
  * cached). Uses CoinGecko's free simple-price endpoint. Returns { ok, prices }.
  * On any failure returns { ok:false } and the client keeps the simulation.
  *
- * $UNIA is intentionally absent — it's not launched yet (pools.trade), so it
- * stays simulated on the client until it has a real market.
+ * $UNIA is intentionally absent — it trades on Pons (Robinhood Chain), so it
+ * stays simulated on the client until it has a real price feed.
  */
 const IDS: Record<string, string> = {
   WETH: "weth",

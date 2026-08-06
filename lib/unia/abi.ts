@@ -12,23 +12,3 @@ export const UNIA_PASS_ABI = [
   { type: "function", name: "pendingRewards", stateMutability: "view", inputs: [{ name: "a", type: "address" }], outputs: [{ type: "uint256" }] },
   { type: "function", name: "mintPrice", stateMutability: "view", inputs: [{ name: "a", type: "address" }], outputs: [{ type: "uint256" }] },
 ] as const;
-
-// pools.trade "atomic buy route" — ETH → token in one tx.
-// ⚠️ CANDIDATE signature, NOT yet verified against the deployed route
-// (0x4962…). The Buy box will not call this until BUY.verified === true in
-// lib/config.ts. Replace inputs/name below with the real ABI from the
-// explorer before enabling native buys.
-//   buy(address token, uint256 amountOutMin, address to) payable
-export const ATOMIC_BUY_ABI = [
-  {
-    type: "function",
-    name: "buy",
-    stateMutability: "payable",
-    inputs: [
-      { name: "token", type: "address" },
-      { name: "amountOutMin", type: "uint256" },
-      { name: "to", type: "address" },
-    ],
-    outputs: [{ type: "uint256" }],
-  },
-] as const;

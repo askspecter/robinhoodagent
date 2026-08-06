@@ -93,7 +93,7 @@ export default function Home() {
           </span>
         </div>
 
-        {/* launch countdown → pools.trade */}
+        {/* launch countdown → Pons */}
         <LaunchBanner />
 
         {/* top: unicorn + logo/menu (persistent nav) */}
