@@ -3,7 +3,7 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { Providers } from "./providers";
 
-const DESC = "The autonomous degen unicorn — the first agent on Uniswap, live on Robinhood Chain. $UNIA is live on Pons.";
+const DESC = "The autonomous degen unicorn — the first agent on Uniswap, live on Robinhood Chain. $UNIA is live on pools.trade.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://unia.sh"),

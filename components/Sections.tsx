@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { PassState } from "@/lib/unia/useUniaPass";
 import {
   robinhoodChain, UNIA, SOCIALS,
-  explorerTx, explorerToken, isPlaceholderAddr, ponsUrl,
+  explorerTx, explorerToken, isPlaceholderAddr, poolsTradeUrl,
 } from "@/lib/config";
 
 /** sub-tabs inside the "$UNIA · soon" hub */
@@ -251,26 +251,26 @@ export function BuySection() {
       <Box
         mark="◈"
         title="BUY $UNIA"
-        right={<span className={`text-[11px] ${live ? "text-uni-green" : "text-uni-muted"}`}>on Pons</span>}
+        right={<span className={`text-[11px] ${live ? "text-uni-green" : "text-uni-muted"}`}>on pools.trade</span>}
       >
         <div className="space-y-4">
           <p className="text-uni-muted leading-snug">
             {live
-              ? <>ape into <span className="text-uni-green">$UNIA</span> on <span className="text-uni-green">Pons</span> — the launchpad on Robinhood Chain. Connect your wallet there and swap; every tx is approved by you.</>
+              ? <>ape into <span className="text-uni-green">$UNIA</span> on <span className="text-uni-green">pools.trade</span> — the launchpad on Robinhood Chain. Connect your wallet there and swap; every tx is approved by you.</>
               : <>$UNIA isn&apos;t live on-chain yet. The moment the token address lands, buying opens here.</>}
           </p>
 
           <a
-            href={ponsUrl()}
+            href={poolsTradeUrl()}
             target="_blank"
             rel="noreferrer"
             className="btn btn-solid w-full py-3 text-center block"
           >
-            {live ? "buy $UNIA on Pons →" : "open Pons →"}
+            {live ? "buy $UNIA on pools.trade →" : "open pools.trade →"}
           </a>
 
           <div className="pt-2 border-t border-uni-line text-xs text-uni-muted leading-snug">
-            Pons is a non-custodial launchpad — it never holds your keys, and you approve every transaction in your own wallet.
+            pools.trade is a non-custodial launchpad — it never holds your keys, and you approve every transaction in your own wallet.
           </div>
         </div>
       </Box>
@@ -282,10 +282,10 @@ export function BuySection() {
             k="contract"
             v={live
               ? <a href={explorerToken(tokenAddr)} target="_blank" rel="noreferrer" className="hover:text-uni-green break-all">{tokenAddr} ↗</a>
-              : <span className="text-uni-muted">launching on Pons…</span>}
+              : <span className="text-uni-muted">launching on pools.trade…</span>}
           />
           <Row k="chain" v={`Robinhood Chain · #${robinhoodChain.id}`} />
-          <Row k="market" v={<a href={ponsUrl()} target="_blank" rel="noreferrer" className="hover:text-uni-green">Pons ↗</a>} />
+          <Row k="market" v={<a href={poolsTradeUrl()} target="_blank" rel="noreferrer" className="hover:text-uni-green">pools.trade ↗</a>} />
           <div className="text-uni-muted pt-1 text-xs leading-snug">
             hold <span className="text-uni-green">5,000,000 $UNIA</span> → mint the UNIA PASS free &amp; stream rewards.
           </div>
@@ -309,8 +309,8 @@ export function UniaHub({ pass }: { pass: PassState }) {
         <div className="text-uni-muted text-sm min-w-0">
           <span className="text-uni-green">$UNIA</span> &amp; <span className="text-uni-green">UNIA PASS</span> — token economy.{" "}
           {live
-            ? <span className="text-uni-green">live on Pons</span>
-            : <span className="text-uni-gold">launching on Pons</span>}.
+            ? <span className="text-uni-green">live on pools.trade</span>
+            : <span className="text-uni-gold">launching on pools.trade</span>}.
         </div>
         <div className="flex flex-wrap gap-2 shrink-0">
           {HUB_TABS.map(([k, l]) => (

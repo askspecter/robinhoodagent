@@ -24,10 +24,10 @@ export const robinhoodChain = {
 export const UNIA = {
   token: {
     symbol: "$UNIA",
-    // Deployed $UNIA token on Robinhood Chain (live on Pons).
+    // Deployed $UNIA token on Robinhood Chain (live on pools.trade).
     // A real address here switches on holder-detection, explorer links,
-    // and the Pons deep-link automatically.
-    address: "0x3Db7a7c26Bfe4D050Aa55020971F001a60Dcc924",
+    // and the pools.trade deep-link automatically.
+    address: "0x3773712471bd46daF6d1b142809077a1a3fb436c",
     // hold at least this much $UNIA to mint the Pass for free
     freeMintHold: 5_000_000,
   },
@@ -41,28 +41,29 @@ export const UNIA = {
 };
 
 // ---------------------------------------------------------------------------
-//  Pons — the launchpad $UNIA lives on (Robinhood Chain)
+//  pools.trade — the launchpad $UNIA lives on (Robinhood Chain)
 // ---------------------------------------------------------------------------
-export const PONS = {
-  url: "https://pons.sc",
+export const POOLS = {
+  url: "https://pools.trade",
 };
 
 // ---------------------------------------------------------------------------
-//  Launch — $UNIA on Pons (Robinhood Chain)
+//  Launch — $UNIA on pools.trade (Robinhood Chain)
 // ---------------------------------------------------------------------------
 export const LAUNCH = {
   // ISO UTC. 2026-08-05T16:00:00Z = 00:00 (UTC+8) / 23:00 WIB.
   // Change this one line if the launch time moves.
   at: "2026-08-05T16:00:00Z",
-  ponsUrl: PONS.url,
+  poolsUrl: POOLS.url,
 };
 
-// Pons link — deep-links to the token page once its address is live, otherwise
-// the Pons home. (Adjust the path if Pons uses a different token-URL scheme.)
-export const ponsUrl = () =>
+// pools.trade link — deep-links to the token page once its address is live,
+// otherwise the pools.trade home. (Adjust the path if pools.trade uses a
+// different token-URL scheme.)
+export const poolsTradeUrl = () =>
   isPlaceholderAddr(UNIA.token.address)
-    ? PONS.url
-    : `${PONS.url}/token/${UNIA.token.address}`;
+    ? POOLS.url
+    : `${POOLS.url}/token/${UNIA.token.address}`;
 
 // ---------------------------------------------------------------------------
 //  Socials
